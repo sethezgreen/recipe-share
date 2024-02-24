@@ -3,12 +3,12 @@ import './App.css'
 import axios from 'axios'
 
 function App() {
-  const [testData, setTestData] = useState("")
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:5000/test')
+    axios.get('http://localhost:5000/users')
       .then((res) => {
-        setTestData(res.data)
+        setUsers(res.data)
         console.log(res)
       })
       .catch(err => console.log(err))
@@ -16,7 +16,15 @@ function App() {
 
   return (
     <div className="app">
-      <p>{testData}</p>
+      {
+        users.map((user) => (
+          <div key={user.id}>
+            <p>{user.username}</p>
+            <p>{user.first_name}</p>
+            <p>{user.email}</p>
+          </div>
+        ))
+      }
     </div>
   )
 }
