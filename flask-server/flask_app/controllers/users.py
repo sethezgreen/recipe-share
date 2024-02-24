@@ -13,7 +13,6 @@ def test():
 
 @app.route('/users/create', methods=["POST"])
 def create_user():
-    print(request.get_json())
     user.User.create_user(request.get_json())
     return ("success")
 
