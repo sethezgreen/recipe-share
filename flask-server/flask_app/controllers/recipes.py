@@ -21,3 +21,18 @@ def read_recipe(recipe_id):
 def read_all_recipes():
     all_recipes = recipe.Recipe.read_all_recipes_with_user()
     return (all_recipes), 200
+
+# Update Recipe Route
+
+@app.route('/api/recipe/update', methods = ["POST"])
+def update_recipe():
+    recipe.Recipe.update_recipe(request.json)
+    # need to return updated object
+    return "success", 201
+
+# Delete Recipe Route
+
+@app.route('/api/recipe/delete/<int:recipe_id>', methods = ["DELETE"])
+def delete_recipe(recipe_id):
+    recipe.Recipe.delete_recipe(recipe_id)
+    return {}, 204

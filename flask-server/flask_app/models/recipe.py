@@ -113,3 +113,34 @@ class Recipe(BaseModel):
             all_recipes.append(one_recipeJSON)
             # need to convert the all_recipes list to JSON
         return all_recipes
+    
+    # Update Recipe
+
+    @classmethod
+    def update_recipe(cls, data):
+        query = """
+                UPDATE recipes
+                SET
+                    title = %(title)s,
+                    description = %(description)s,
+                    ingredients = %(ingredients)s,
+                    directions = %(directions)s,
+                    prep_time = %(prep_time)s,
+                    cook_time = %(cook_time)s
+                WHERE id = %(recipe_id)s
+            ;"""
+        result = connectToMySQL(cls.db).query_db(query, data)
+        # need to return updated object
+        return True
+    
+    # Delete Recipe
+
+    @classmethod
+    def delete_recipe(cls, recipe_id):
+        data = {"id": recipe_id}
+        query = """
+                DELETE
+                FROM recipes
+                WHERE id = %(id)s
+            ;"""
+        return connectToMySQL(cls.db).query_db(query, data)
