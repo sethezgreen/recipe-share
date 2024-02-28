@@ -11,14 +11,16 @@ def test():
 
 # Create User Route
 
-@app.route('/users/create', methods=["POST"])
+@app.route('/api/users/create', methods=["POST"])
 def create_user():
-    user.User.create_user(request.get_json())
-    return ("success")
+    newUser = user.User.create_user(request.get_json())
+    # return jsonify(newUser.to_json()), 201
+    # need to edit create_user to return user object rather than id
+    return 201
 
 # Read Users Route
 
-@app.route('/users')
+@app.route('/api/users')
 def read_users():
     all_users = user.User.get_users()
     return (all_users)

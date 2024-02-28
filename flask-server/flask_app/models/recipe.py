@@ -1,9 +1,8 @@
-from flask_app import app
-import json
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import user
+from flask_app.models.base_model import BaseModel
 
-class Recipe:
+class Recipe(BaseModel):
     db = "recipe_share_schema"
     def __init__(self, data):
         self.id = data['id']
@@ -21,10 +20,6 @@ class Recipe:
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.user = None
-
-    # To JSON method
-    def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__)
 
     # Create Recipe
     
@@ -61,8 +56,12 @@ class Recipe:
                 WHERE recipes.id = %(id)s
             ;"""
         results = connectToMySQL(cls.db).query_db(query, data)
+        print(f"results from DB: {results}")
         result = results[0]
         one_recipe = cls(result)
+        # change datetime to isoformat in the recipe
+        one_recipe.created_at = one_recipe.created_at.isoformat()
+        one_recipe.updated_at = one_recipe.updated_at.isoformat()
         one_recipe.user = user.User({
             'id': result['users.id'],
             'username': result['username'],
@@ -70,12 +69,11 @@ class Recipe:
             'last_name': result['last_name'],
             'email': result['email'],
             'password': result['password'],
-            'created_at': result['users.created_at'],
-            'updated_at': result['users.updated_at']
+            # may need to leave password out
+            'created_at': result['users.created_at'].isoformat(),
+            'updated_at': result['users.updated_at'].isoformat()
         })
 
         # Recipe object to JSON
-        recipeJSONData = json.dumps(one_recipe.toJson(), indent=4)
-        print(recipeJSONData)
-        # error for datetime
-        return
+        one_recipeJSON = one_recipe.toJson()
+        return (one_recipeJSON)
