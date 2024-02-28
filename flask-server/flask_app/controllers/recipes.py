@@ -16,3 +16,8 @@ def create_recipe():
 def read_recipe(recipe_id):
     one_recipe = recipe.Recipe.read_recipe_with_user(recipe_id)
     return (one_recipe), 200
+
+@app.route('/api/recipes')
+def read_all_recipes():
+    all_recipes = recipe.Recipe.read_all_recipes_with_user()
+    return (all_recipes), 200

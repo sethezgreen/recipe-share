@@ -1,3 +1,5 @@
+from flask import jsonify
+import json
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import user
 from flask_app.models.base_model import BaseModel
@@ -43,6 +45,7 @@ class Recipe(BaseModel):
         return recipe_id
     
     # Read one Recipe
+
     @classmethod
     def read_recipe_with_user(cls, recipe_id):
         data = {
@@ -76,4 +79,37 @@ class Recipe(BaseModel):
 
         # Recipe object to JSON
         one_recipeJSON = one_recipe.toJson()
-        return (one_recipeJSON)
+        return one_recipeJSON
+    
+    # Read all recipes
+
+    @classmethod
+    def read_all_recipes_with_user(cls):
+        query = """
+                SELECT *
+                FROM recipes
+                JOIN users
+                ON users.id = recipes.user_id
+            ;"""
+        results = connectToMySQL(cls.db).query_db(query)
+        all_recipes = []
+        for result in results:
+            one_recipe = cls(result)
+            one_recipe.created_at = one_recipe.created_at.isoformat()
+            one_recipe.updated_at = one_recipe.updated_at.isoformat()
+            one_recipe.user = user.User({
+            'id': result['users.id'],
+            'username': result['username'],
+            'first_name': result['first_name'],
+            'last_name': result['last_name'],
+            'email': result['email'],
+            'password': result['password'],
+            # may need to leave password out
+            'created_at': result['users.created_at'].isoformat(),
+            'updated_at': result['users.updated_at'].isoformat()
+        })
+            one_recipeJSON = one_recipe.toJson()
+            print(f"one recipe JSON {one_recipeJSON}")
+            all_recipes.append(one_recipeJSON)
+            # need to convert the all_recipes list to JSON
+        return all_recipes
