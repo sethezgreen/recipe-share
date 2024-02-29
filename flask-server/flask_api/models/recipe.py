@@ -1,7 +1,7 @@
 from flask import flash
-from flask_app.config.mysqlconnection import connectToMySQL
-from flask_app.models import user
-from flask_app.models.base_model import BaseModel
+from flask_api.config.mysqlconnection import connectToMySQL
+from flask_api.models import user
+from flask_api.models.base_model import BaseModel
 
 class Recipe(BaseModel):
     db = "recipe_share_schema"

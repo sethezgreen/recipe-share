@@ -1,5 +1,5 @@
-from flask_app import app
-from flask_app.controllers import users, recipes
+from flask_api import api
+from flask_api.controllers import users, recipes
 
 if __name__=="__main__":   
-    app.run(debug=True) 
+    api.run(debug=True) 

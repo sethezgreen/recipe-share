@@ -1,10 +1,10 @@
-from flask_app import app
-from flask_app.config.mysqlconnection import connectToMySQL
+from flask_api import api
+from flask_api.config.mysqlconnection import connectToMySQL
 from flask import flash, session
 import re
 from flask_bcrypt import Bcrypt
-bcrypt = Bcrypt(app)
-from flask_app.models.base_model import BaseModel
+bcrypt = Bcrypt(api)
+from flask_api.models.base_model import BaseModel
 # The above is used when we do login registration, flask-bcrypt should already be in your env check the pipfile
 
 # Remember 'fat models, skinny controllers' more logic should go in here rather than in your controller. Your controller should be able to just call a function from the model for what it needs, ideally.
