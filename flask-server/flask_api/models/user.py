@@ -1,11 +1,12 @@
 from flask_api import api
 from flask_api.config.mysqlconnection import connectToMySQL
-from flask import flash, session
+from flask import flash, session, jsonify
 import re
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(api)
-from flask_api.models.base_model import BaseModel
 # The above is used when we do login registration, flask-bcrypt should already be in your env check the pipfile
+from flask_api.models.base_model import BaseModel
+from flask_jwt_extended import create_access_token, unset_jwt_cookies
 
 # Remember 'fat models, skinny controllers' more logic should go in here rather than in your controller. Your controller should be able to just call a function from the model for what it needs, ideally.
 
@@ -62,7 +63,7 @@ class User(BaseModel):
             this_user = cls(result[0])
             this_user.created_at = this_user.created_at.isoformat()
             this_user.updated_at = this_user.updated_at.isoformat()
-            return this_user.toJson()
+            return this_user
         return False
     
     @classmethod
@@ -78,19 +79,22 @@ class User(BaseModel):
             return True
         return False
     
-    # Login Method
+    # JWT Login/Logout
 
     @classmethod
-    def login(cls, data):
+    def token(cls, data):
         this_user = cls.get_user_by_email(data['email'])
-        if this_user:
-            if bcrypt.check_password_hash(this_user.password, data['password']):
-                session['user_id'] = this_user.id
-                session['first_name'] = this_user.first_name
-                session['last_name'] = this_user.last_name
-                return True
+        if bcrypt.check_password_hash(this_user.password, data['password']):
+            access_token = create_access_token(identity=data['email'])
+            return {"access_token": access_token}
         flash("Invalid Login Information")
         return False
+    
+    @classmethod
+    def logout(cls):
+        response = jsonify({"msg": "logout successful"})
+        unset_jwt_cookies(response)
+        return response
 
     # Validation
     @staticmethod
