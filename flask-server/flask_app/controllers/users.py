@@ -1,5 +1,5 @@
 from flask_app import app
-from flask import request
+from flask import request, get_flashed_messages
 from flask_app.models import user
 
 # Test route
@@ -13,10 +13,11 @@ def test():
 
 @app.route('/api/users/create', methods=["POST"])
 def create_user():
-    newUser = user.User.create_user(request.get_json())
-    # return jsonify(newUser.to_json()), 201
+    # newUser = user.User.create_user(request.get_json())
     # need to edit create_user to return user object rather than id
-    return 201
+    if user.User.create_user(request.json):
+        return 201
+    return get_flashed_messages()
 
 # Read Users Route
 

@@ -1,5 +1,4 @@
-from flask import jsonify
-import json
+from flask import flash
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app.models import user
 from flask_app.models.base_model import BaseModel
@@ -27,6 +26,7 @@ class Recipe(BaseModel):
     
     @classmethod
     def create_recipe(cls, data):
+        if not cls.validate_recipe(data): return False
         recipe_data = {
             'title': data['title'],
             'description': data['description'],
@@ -36,6 +36,7 @@ class Recipe(BaseModel):
             'cook_time': data['cook_time'],
             'user_id': data['user_id']
         }
+        # will use session for user_id
         query = """
                 INSERT INTO recipes (title, description, ingredients, directions, prep_time, cook_time, user_id)
                 VALUES (%(title)s, %(description)s, %(ingredients)s, %(directions)s, %(prep_time)s, %(cook_time)s, %(user_id)s)
@@ -144,3 +145,26 @@ class Recipe(BaseModel):
                 WHERE id = %(id)s
             ;"""
         return connectToMySQL(cls.db).query_db(query, data)
+    
+    @staticmethod
+    def validate_recipe(data):
+        is_valid = True
+        if len(data['title']) < 2:
+            flash("Title must be at least 2 characters.")
+            is_valid = False
+        if len(data['description']) < 2:
+            flash("Please enter a description.")
+            is_valid = False
+        if len(data['ingredients']) < 2:
+            flash("Please enter the ingredients.")
+            is_valid = False
+        if len(data['directions']) < 2:
+            flash("Please enter the directions.")
+            is_valid = False
+        if data['prep_time'] < 1:
+            flash("Prep time must be greater than 0.")
+            is_valid = False
+        if data['cook_time'] < 1:
+            flash("Cook time must be greater than 0.")
+            is_valid = False
+        return is_valid

@@ -1,14 +1,16 @@
 from flask_app import app
-from flask import request
+from flask import request, get_flashed_messages
 from flask_app.models import recipe
 
 # Create Recipe Route
 
 @app.route('/api/recipes/create', methods=["POST"])
 def create_recipe():
-    newRecipe = recipe.Recipe.create_recipe(request.json)
+    # newRecipe = recipe.Recipe.create_recipe(request.json)
     # need create method to return recipe object rather than id
-    return "success", 201
+    if recipe.Recipe.create_recipe(request.json):
+        return "success", 201
+    return get_flashed_messages()
 
 # Read Recipe Routes
 

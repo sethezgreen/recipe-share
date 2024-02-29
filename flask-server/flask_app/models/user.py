@@ -26,9 +26,8 @@ class User(BaseModel):
 
     @classmethod
     def create_user(cls, user_data):
-        print(user_data)
-        # if not cls.validate_user(user_data):
-        #     return False
+        if not cls.validate_user(user_data):
+            return False
         user_data = user_data.copy()
         user_data['password'] = bcrypt.generate_password_hash(user_data['password'])
         query = """
@@ -36,7 +35,7 @@ class User(BaseModel):
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
         user_id = connectToMySQL(cls.db).query_db(query, user_data)
-        # session['user_id'] = user_id # starts with the user logged in after registering
+        session['user_id'] = user_id # starts with the user logged in after registering
         # could also save something like user_name in session here
         return user_id
     
@@ -49,3 +48,80 @@ class User(BaseModel):
             FROM users
             ;"""
         return connectToMySQL(cls.db).query_db(query)
+    
+    @classmethod
+    def get_user_by_email(cls, email):
+        data = {'email' : email}
+        query = """
+                SELECT *
+                FROM users
+                WHERE email = %(email)s
+                ;"""
+        result = connectToMySQL(cls.db).query_db(query, data)
+        if result:
+            this_user = cls(result[0])
+            this_user.created_at = this_user.created_at.isoformat()
+            this_user.updated_at = this_user.updated_at.isoformat()
+            return this_user.toJson()
+        return False
+    
+    @classmethod
+    def get_user_by_username(cls, username):
+        data = {'username' : username}
+        query = """
+                SELECT *
+                FROM users
+                WHERE username = %(username)s
+            ;"""
+        result = connectToMySQL(cls.db).query_db(query, data)
+        if result:
+            return True
+        return False
+    
+    # Login Method
+
+    @classmethod
+    def login(cls, data):
+        this_user = cls.get_user_by_email(data['email'])
+        if this_user:
+            if bcrypt.check_password_hash(this_user.password, data['password']):
+                session['user_id'] = this_user.id
+                session['first_name'] = this_user.first_name
+                session['last_name'] = this_user.last_name
+                return True
+        flash("Invalid Login Information")
+        return False
+
+    # Validation
+    @staticmethod
+    def validate_user(data):
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        is_valid = True
+        if len(data['email']) < 1:
+            flash("Email required.")
+            is_valid = False
+        elif not EMAIL_REGEX.match(data['email']):
+            flash("Invalid email.")
+            is_valid = False
+        if User.get_user_by_email(data['email']):
+            flash("Email taken.")
+            is_valid = False
+        if User.get_user_by_username(data['username']):
+            flash("This username is taken.")
+            is_valid = False
+        if len(data['username']) < 2:
+            flash("Username must be at least 2 characters.")
+            is_valid = False
+        if len(data['first_name']) < 2:
+            flash("First Name must be at least 2 characters.")
+            is_valid = False
+        if len(data['last_name']) < 2:
+            flash("Last Name be at least 2 characters.")
+            is_valid = False
+        if len(data['password']) < 8:
+            flash("Password must be at least 8 characters.")
+            is_valid = False
+        if data['password'] != data['confirm_password']:
+            flash("Passwords must match.")
+            is_valid = False
+        return is_valid
