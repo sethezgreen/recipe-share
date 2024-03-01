@@ -4,6 +4,7 @@ import axios from 'axios'
 
 const Login = (props) => {
     const navigate = useNavigate()
+    const {setToken} = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState("")
@@ -15,16 +16,13 @@ const Login = (props) => {
         axios.post('http://localhost:5000/api/login', loginUser)
             .then((res) => {
                 console.log(res)
-                props.setToken(res.data.access_token)
+                setToken(res.data.access_token)
                 navigate('/dashboard')
             })
             .catch((err) => {
                 console.log(err)
                 setErrors(err.response.data)
             })
-
-        setEmail("")
-        setPassword("")
     }
     
     return (
