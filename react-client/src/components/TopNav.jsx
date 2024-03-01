@@ -1,8 +1,10 @@
 import React from 'react'
 import './topnav.css'
+import LogoutButton from './LogoutButton'
+import useToken from './useToken'
 
 function TopNav() {
-    
+    const { removeToken } = useToken() 
     
     return (
         <div className='top-nav'>
@@ -14,6 +16,7 @@ function TopNav() {
             <div>
                 <button>DarkMode</button>
                 <button>Profile</button>
+                <LogoutButton token={removeToken}/>
             </div>
         </div>
     )
