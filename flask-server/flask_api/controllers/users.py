@@ -1,5 +1,5 @@
 from flask_api import api
-from flask import request, get_flashed_messages
+from flask import request, get_flashed_messages, session
 import json
 from datetime import datetime, timezone, timedelta
 from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required, create_access_token
@@ -16,11 +16,15 @@ def test():
 
 @api.route('/api/users/create', methods=["POST"])
 def create_user():
-    # newUser = user.User.create_user(request.get_json())
-    # need to edit create_user to return user object rather than id
-    if user.User.create_user(request.json):
-        return 201
-    return get_flashed_messages()
+    response = user.User.create_user(request.json)
+    if response:
+        session.clear # clears any errors that were saved in session previously
+        return response, 201
+    # return get_flashed_messages(with_categories=True), 500
+    return session['errors'], 500
+    # would need to clear session on logging out
+    # would need to have 'user_errors' and 'recipe_errors'
+    # recipe_errors would need to be cleared upon successful recipe create/update
 
 # Read Users Route
 

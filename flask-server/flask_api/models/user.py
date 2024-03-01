@@ -26,19 +26,19 @@ class User(BaseModel):
     # Create Users
 
     @classmethod
-    def create_user(cls, user_data):
-        if not cls.validate_user(user_data):
+    def create_user(cls, data):
+        if not cls.validate_user(data):
             return False
-        user_data = user_data.copy()
-        user_data['password'] = bcrypt.generate_password_hash(user_data['password'])
+        data = data.copy()
+        data['password'] = bcrypt.generate_password_hash(data['password'])
         query = """
                 INSERT INTO users (username, first_name, last_name, email, password)
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
-        user_id = connectToMySQL(cls.db).query_db(query, user_data)
-        session['user_id'] = user_id # starts with the user logged in after registering
-        # could also save something like user_name in session here
-        return user_id
+        user_id = connectToMySQL(cls.db).query_db(query, data)
+        access_token = create_access_token(identity=data['email'])
+        response = {"access_token": access_token}
+        return response
     
     # Read All Users
 
@@ -100,10 +100,13 @@ class User(BaseModel):
     # Validation
     @staticmethod
     def validate_user(data):
+        session['errors'] = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         is_valid = True
         if len(data['email']) < 1:
-            flash("Email required.")
+            flash(u"Email required.", "email")
+            session['errors']['email'] = "Email required"
+            print(f"session errors: {session['errors']}")
             is_valid = False
         elif not EMAIL_REGEX.match(data['email']):
             flash("Invalid email.")
