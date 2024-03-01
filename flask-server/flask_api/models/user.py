@@ -84,9 +84,10 @@ class User(BaseModel):
     @classmethod
     def token(cls, data):
         this_user = cls.get_user_by_email(data['email'])
-        if bcrypt.check_password_hash(this_user.password, data['password']):
-            access_token = create_access_token(identity=data['email'])
-            return {"access_token": access_token}
+        if this_user:
+            if bcrypt.check_password_hash(this_user.password, data['password']):
+                access_token = create_access_token(identity=data['email'])
+                return {"access_token": access_token}
         flash("Invalid Login Information")
         return False
     
