@@ -6,11 +6,9 @@ from flask_api.models import recipe
 
 @api.route('/api/recipes/create', methods=["POST"])
 def create_recipe():
-    # newRecipe = recipe.Recipe.create_recipe(request.json)
-    # need create method to return recipe object rather than id
     if recipe.Recipe.create_recipe(request.json):
         return "success", 201
-    return get_flashed_messages()
+    return get_flashed_messages(), 500
 
 # Read Recipe Routes
 
