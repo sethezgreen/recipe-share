@@ -1,6 +1,6 @@
 from flask_api import api
 from flask_api.config.mysqlconnection import connectToMySQL
-from flask import flash, session, jsonify
+from flask import jsonify
 import re
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(api)
@@ -21,7 +21,6 @@ class User(BaseModel):
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.errors = []
         #What needs to be added here for class association?
 
     # Create Users
@@ -38,9 +37,8 @@ class User(BaseModel):
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
         user_id = connectToMySQL(cls.db).query_db(query, data)
-        # store user id in session for creating recipes
         access_token = create_access_token(identity=data['email'])
-        return {'access_token': access_token, 'hasErrors': False}
+        return {'access_token': access_token, 'hasErrors': False, 'user_id': user_id}
     
     # Read All Users
 
@@ -86,11 +84,10 @@ class User(BaseModel):
     @classmethod
     def token(cls, data):
         this_user = cls.get_user_by_email(data['email'])
-        print(this_user)
         if this_user:
             if bcrypt.check_password_hash(this_user.password, data['password']):
                 access_token = create_access_token(identity=data['email'])
-                return {'access_token': access_token, 'hasErrors': False}
+                return {'access_token': access_token, 'hasErrors': False, 'user_id': this_user.id}
         return {'error': 'Invalid login information.', 'hasErrors': True}
     
     @classmethod
@@ -107,10 +104,8 @@ class User(BaseModel):
         if len(data['email']) < 1:
             errorList['emailLength'] = "Please enter an email."
         elif not EMAIL_REGEX.match(data['email']):
-            flash("Invalid email.")
             errorList['emailValid'] = "Invalid email."
         if User.get_user_by_email(data['email']):
-            flash("Email taken.")
             errorList['emailTaken'] = "Email taken."
         if User.get_user_by_username(data['username']):
             errorList['usernameTaken'] = "This username is taken."
@@ -119,10 +114,8 @@ class User(BaseModel):
         if len(data['first_name']) < 2:
             errorList['firstName'] = "First Name must be at least 2 characters."
         if len(data['last_name']) < 2:
-            flash("Last Name be at least 2 characters.")
             errorList['lastName'] = "Last Name be at least 2 characters."
         if len(data['password']) < 8:
-            flash("Password must be at least 8 characters.")
             errorList['password'] = "Password must be at least 8 characters."
         if data['password'] != data['confirm_password']:
             errorList['confirmPassword'] = "Passwords must match."

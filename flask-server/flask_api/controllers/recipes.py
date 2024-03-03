@@ -10,7 +10,7 @@ def create_recipe():
     response = recipe.Recipe.create_recipe(request.json)
     if response['hasErrors']:
         return response['errors'], 500
-    return response['recipe_id'], 201
+    return response, 201
 
 # Read Recipe Routes
 
@@ -20,7 +20,6 @@ def read_recipe(recipe_id):
     return (one_recipe), 200
 
 @api.route('/api/recipes')
-# @jwt_required()
 def read_all_recipes():
     all_recipes = recipe.Recipe.read_all_recipes_with_user()
     return (all_recipes), 200

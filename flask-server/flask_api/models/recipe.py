@@ -1,4 +1,3 @@
-from flask import flash
 from flask_api.config.mysqlconnection import connectToMySQL
 from flask_api.models import user
 from flask_api.models.base_model import BaseModel
@@ -22,6 +21,8 @@ class Recipe(BaseModel):
         self.user_id = data['user_id']
         self.user = None
 
+    # Could add parse recipe data method to return json of recipe
+
     # Create Recipe
     
     @classmethod
@@ -38,12 +39,10 @@ class Recipe(BaseModel):
             'cook_time': data['cook_time'],
             'user_id': data['user_id']
         }
-        # will use session for user_id
         query = """
                 INSERT INTO recipes (title, description, ingredients, directions, prep_time, cook_time, user_id)
                 VALUES (%(title)s, %(description)s, %(ingredients)s, %(directions)s, %(prep_time)s, %(cook_time)s, %(user_id)s)
             ;"""
-        # will use session for user_id
         recipe_id = connectToMySQL(cls.db).query_db(query, recipe_data)
         return {'recipe_id': recipe_id, 'hasErrors': False}
     
@@ -97,24 +96,28 @@ class Recipe(BaseModel):
         results = connectToMySQL(cls.db).query_db(query)
         all_recipes = []
         for result in results:
-            one_recipe = cls(result)
-            one_recipe.created_at = one_recipe.created_at.isoformat()
-            one_recipe.updated_at = one_recipe.updated_at.isoformat()
-            one_recipe.user = user.User({
-            'id': result['users.id'],
-            'username': result['username'],
-            'first_name': result['first_name'],
-            'last_name': result['last_name'],
-            'email': result['email'],
-            'password': result['password'],
-            # may need to leave password out
-            'created_at': result['users.created_at'].isoformat(),
-            'updated_at': result['users.updated_at'].isoformat()
-        })
-            one_recipeJSON = one_recipe.toJson()
-            print(f"one recipe JSON {one_recipeJSON}")
-            all_recipes.append(one_recipeJSON)
-            # need to convert the all_recipes list to JSON
+            one_recipe = {
+                'id': result['id'],
+                'title': result['title'],
+                'description': result['description'],
+                'ingredients': result['ingredients'],
+                'directions': result['directions'],
+                'prep_time': result['prep_time'],
+                'cook_time': result['cook_time'],
+                'created_at': result['created_at'].isoformat(),
+                'updated_at': result['updated_at'].isoformat(),
+                'user_id': result['user_id'],
+                'user': {
+                    'id': result['users.id'],
+                    'username': result['username'],
+                    'first_name': result['first_name'],
+                    'last_name': result['last_name'],
+                    'email': result['email'],
+                    'created_at': result['users.created_at'].isoformat(),
+                    'updated_at': result['users.updated_at'].isoformat()
+                }
+            }
+            all_recipes.append(one_recipe)
         return all_recipes
     
     # Update Recipe
@@ -159,8 +162,12 @@ class Recipe(BaseModel):
             errorList['ingredients'] = "Please enter the ingredients."
         if len(data['directions']) < 2:
             errorList['directions'] = "Please enter the directions."
-        if int(data['prep_time']) < 1:
+        if len(data['prep_time']) < 1:
+            errorList['prepTime'] = "Please enter a prep time."
+        elif int(data['prep_time']) < 1:
             errorList['prepTime'] = "Prep time must be greater than 0."
-        if int(data['cook_time']) < 1:
+        if len(data['cook_time']) < 1:
+            errorList['cookTime'] = "Please enter a cook time."
+        elif int(data['cook_time']) < 1:
             errorList['cookTime'] = "Cook time must be greater than 0."
         return errorList
