@@ -19,7 +19,7 @@ def create_user():
     response = user.User.create_user(request.json)
     if response['hasErrors']:
         return response['errors'], 500
-    return response['access_token'], 201
+    return response, 201
     # would need to clear session on logging out
     # would need to have 'user_errors' and 'recipe_errors'
     # recipe_errors would need to be cleared upon successful recipe create/update
@@ -59,7 +59,7 @@ def token():
     response = user.User.token(request.json)
     if response['hasErrors']:
         return response['error'], 401
-    return response['access_token']
+    return response
 
 @api.route('/api/logout', methods=["POST"])
 def logout():
