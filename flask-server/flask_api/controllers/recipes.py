@@ -1,14 +1,16 @@
 from flask_api import api
-from flask import request, get_flashed_messages
+from flask import request
 from flask_api.models import recipe
+from flask_jwt_extended import jwt_required
 
 # Create Recipe Route
 
 @api.route('/api/recipes/create', methods=["POST"])
 def create_recipe():
-    if recipe.Recipe.create_recipe(request.json):
-        return "success", 201
-    return get_flashed_messages(), 500
+    response = recipe.Recipe.create_recipe(request.json)
+    if response['hasErrors']:
+        return response['errors'], 500
+    return response['recipe_id'], 201
 
 # Read Recipe Routes
 
@@ -18,6 +20,7 @@ def read_recipe(recipe_id):
     return (one_recipe), 200
 
 @api.route('/api/recipes')
+# @jwt_required()
 def read_all_recipes():
     all_recipes = recipe.Recipe.read_all_recipes_with_user()
     return (all_recipes), 200

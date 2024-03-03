@@ -21,14 +21,16 @@ class User(BaseModel):
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+        self.errors = []
         #What needs to be added here for class association?
 
     # Create Users
 
     @classmethod
     def create_user(cls, data):
-        if not cls.validate_user(data):
-            return False
+        errorList = cls.validate_user(data)
+        if len(errorList):
+            return {'errors': errorList, 'hasErrors': True}
         data = data.copy()
         data['password'] = bcrypt.generate_password_hash(data['password'])
         query = """
@@ -36,9 +38,9 @@ class User(BaseModel):
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
         user_id = connectToMySQL(cls.db).query_db(query, data)
+        # store user id in session for creating recipes
         access_token = create_access_token(identity=data['email'])
-        response = {"access_token": access_token}
-        return response
+        return {'access_token': access_token, 'hasErrors': False}
     
     # Read All Users
 
@@ -84,12 +86,12 @@ class User(BaseModel):
     @classmethod
     def token(cls, data):
         this_user = cls.get_user_by_email(data['email'])
+        print(this_user)
         if this_user:
             if bcrypt.check_password_hash(this_user.password, data['password']):
                 access_token = create_access_token(identity=data['email'])
-                return {"access_token": access_token}
-        flash("Invalid Login Information")
-        return False
+                return {'access_token': access_token, 'hasErrors': False}
+        return {'error': 'Invalid login information.', 'hasErrors': True}
     
     @classmethod
     def logout(cls):
@@ -100,36 +102,28 @@ class User(BaseModel):
     # Validation
     @staticmethod
     def validate_user(data):
-        session['errors'] = {}
+        errorList = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-        is_valid = True
         if len(data['email']) < 1:
-            flash(u"Email required.", "email")
-            session['errors']['email'] = "Email required"
-            print(f"session errors: {session['errors']}")
-            is_valid = False
+            errorList['emailLength'] = "Please enter an email."
         elif not EMAIL_REGEX.match(data['email']):
             flash("Invalid email.")
-            is_valid = False
+            errorList['emailValid'] = "Invalid email."
         if User.get_user_by_email(data['email']):
             flash("Email taken.")
-            is_valid = False
+            errorList['emailTaken'] = "Email taken."
         if User.get_user_by_username(data['username']):
-            flash("This username is taken.")
-            is_valid = False
+            errorList['usernameTaken'] = "This username is taken."
         if len(data['username']) < 2:
-            flash("Username must be at least 2 characters.")
-            is_valid = False
+            errorList['usernameLength'] = "Username must be at least 2 characters."
         if len(data['first_name']) < 2:
-            flash("First Name must be at least 2 characters.")
-            is_valid = False
+            errorList['firstName'] = "First Name must be at least 2 characters."
         if len(data['last_name']) < 2:
             flash("Last Name be at least 2 characters.")
-            is_valid = False
+            errorList['lastName'] = "Last Name be at least 2 characters."
         if len(data['password']) < 8:
             flash("Password must be at least 8 characters.")
-            is_valid = False
+            errorList['password'] = "Password must be at least 8 characters."
         if data['password'] != data['confirm_password']:
-            flash("Passwords must match.")
-            is_valid = False
-        return is_valid
+            errorList['confirmPassword'] = "Passwords must match."
+        return errorList

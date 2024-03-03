@@ -1,5 +1,5 @@
 from flask_api import api
-from flask import request, get_flashed_messages, session
+from flask import request, session
 import json
 from datetime import datetime, timezone, timedelta
 from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required, create_access_token
@@ -17,11 +17,9 @@ def test():
 @api.route('/api/users/create', methods=["POST"])
 def create_user():
     response = user.User.create_user(request.json)
-    if response:
-        session.clear # clears any errors that were saved in session previously
-        return response, 201
-    # return get_flashed_messages(with_categories=True), 500
-    return session['errors'], 500
+    if response['hasErrors']:
+        return response['errors'], 500
+    return response['access_token'], 201
     # would need to clear session on logging out
     # would need to have 'user_errors' and 'recipe_errors'
     # recipe_errors would need to be cleared upon successful recipe create/update
@@ -58,10 +56,10 @@ def refresh_expiring_jwts(response):
 
 @api.route('/api/login', methods=["POST"])
 def token():
-    potential_token = user.User.token(request.json)
-    if potential_token:
-        return potential_token
-    return get_flashed_messages(), 401
+    response = user.User.token(request.json)
+    if response['hasErrors']:
+        return response['error'], 401
+    return response['access_token']
 
 @api.route('/api/logout', methods=["POST"])
 def logout():
