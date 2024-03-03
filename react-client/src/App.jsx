@@ -6,6 +6,7 @@ import Main from './views/Main'
 import useToken from './components/useToken'
 import Login from './components/Login'
 import Register from './components/Register'
+import RecipeForm from './components/RecipeForm'
 
 function App() {
   // const [users, setUsers] = useState([])
@@ -32,6 +33,7 @@ function App() {
               <Route exact path="/dashboard" element={<Main token={token}/>} />
               <Route path='/' element={<Login setToken={setToken}/>}/>
               <Route path='/register' element={<Register setToken={setToken} />}/>
+              <Route path='/create/recipe' element={<RecipeForm />}/>
             </Routes>
           </>
     </div>
