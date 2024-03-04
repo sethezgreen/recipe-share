@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const UpdateRecipe = () => {
+    const navigate = useNavigate()
     const {id} = useParams()
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
@@ -42,6 +43,7 @@ const UpdateRecipe = () => {
         axios.post("http://localhost:5000/api/recipe/update", updatedRecipe)
             .then((res) => {
                 console.log(res)
+                navigate(`/recipe/${id}`)
             })
             .catch((err) => {
                 console.log(err)
@@ -107,7 +109,7 @@ const UpdateRecipe = () => {
                         null
                     }
                 </div>
-                <button>Create</button>
+                <button>Update</button>
             </form>
         </div>
     )
