@@ -1,16 +1,18 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-const UpdateRecipe = () => {
+const UpdateRecipe = (props) => {
     const navigate = useNavigate()
     const {id} = useParams()
+    const {token, userId} = props
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [ingredients, setIngredients] = useState("")
     const [directions, setDirections] = useState("")
     const [prepTime, setPrepTime] = useState("")
     const [cookTime, setCookTime] = useState("")
+    const [creatorId, setCreatorId] = useState("")
     const [errors, setErrors] = useState([])
     
     useEffect(() => {
@@ -22,6 +24,7 @@ const UpdateRecipe = () => {
                 setDirections(res.data.directions)
                 setPrepTime(res.data.prep_time)
                 setCookTime(res.data.cook_time)
+                setCreatorId(res.data.user_id)
             })
             .catch((err) => {
                 console.log(err)
@@ -39,11 +42,12 @@ const UpdateRecipe = () => {
             directions,
             'prep_time': prepTime,
             'cook_time': cookTime,
+            'user_id': creatorId
         }
-        axios.post("http://localhost:5000/api/recipe/update", updatedRecipe)
+        axios.post("http://localhost:5000/api/recipe/update", updatedRecipe, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
-                navigate(`/recipe/${id}`)
+                navigate(`/dashboard`)
             })
             .catch((err) => {
                 console.log(err)

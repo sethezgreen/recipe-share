@@ -1,6 +1,7 @@
 from flask_api.config.mysqlconnection import connectToMySQL
 from flask_api.models import user
 from flask_api.models.base_model import BaseModel
+from flask_jwt_extended import decode_token
 
 class Recipe(BaseModel):
     db = "recipe_share_schema"
@@ -20,13 +21,19 @@ class Recipe(BaseModel):
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.user = None
-
-    # Could add parse recipe data method to return json of recipe
+        
+    # Decode Token From Request
+    @classmethod
+    def decode_request_token(cls, access_token):
+        bearer, _, token = access_token.partition(' ')
+        token_decoded = decode_token(token)
+        userId = token_decoded['sub']
+        return userId
 
     # Create Recipe
     
     @classmethod
-    def create_recipe(cls, data):
+    def create_recipe(cls, data, token_from_request):
         errorList = cls.validate_recipe(data)
         if len(errorList):
             return {'errors': errorList, 'hasErrors': True}
@@ -37,7 +44,7 @@ class Recipe(BaseModel):
             'directions': data['directions'],
             'prep_time': data['prep_time'],
             'cook_time': data['cook_time'],
-            'user_id': data['user_id']
+            'user_id': cls.decode_request_token(token_from_request)
         }
         query = """
                 INSERT INTO recipes (title, description, ingredients, directions, prep_time, cook_time, user_id)
@@ -123,10 +130,26 @@ class Recipe(BaseModel):
             all_recipes.append(one_recipe)
         return all_recipes
     
+    # Read User Id of Recipe
+    @classmethod
+    def get_user_id_of_recipe(cls, recipe_id):
+        data = {'id': recipe_id}
+        query = """
+            SELECT user_id
+            FROM recipes
+            WHERE id = %(id)s
+            ;"""
+        result = connectToMySQL(cls.db).query_db(query, data)
+        user_id = result[0]['user_id']
+        return user_id
+    
     # Update Recipe
 
     @classmethod
-    def update_recipe(cls, data):
+    def update_recipe(cls, data, token_from_request):
+        userId = cls.decode_request_token(token_from_request)
+        if userId != data['user_id']:
+            return {'errors': 'unauthorized user', 'hasErrors': True}
         errorList = cls.validate_recipe(data)
         if len(errorList):
             return {'errors': errorList, 'hasErrors': True}
@@ -147,7 +170,10 @@ class Recipe(BaseModel):
     # Delete Recipe
 
     @classmethod
-    def delete_recipe(cls, recipe_id):
+    def delete_recipe(cls, recipe_id, token_from_request):
+        userId = cls.decode_request_token(token_from_request)
+        if userId != cls.get_user_id_of_recipe(recipe_id):
+            return {'errors': 'unauthorized user', 'hasErrors': True}
         data = {"id": recipe_id}
         query = """
                 DELETE

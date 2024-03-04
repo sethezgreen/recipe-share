@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const RecipeForm = (props) => {
+    const {userId, token} = props
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [ingredients, setIngredients] = useState("")
     const [directions, setDirections] = useState("")
     const [prepTime, setPrepTime] = useState("")
     const [cookTime, setCookTime] = useState("")
-    const {userId} = props
     const [errors, setErrors] = useState([])
     
     const submitHandler = (e) => {
@@ -20,10 +20,9 @@ const RecipeForm = (props) => {
             ingredients,
             directions,
             'prep_time': prepTime,
-            'cook_time': cookTime,
-            'user_id': userId
+            'cook_time': cookTime
         }
-        axios.post("http://localhost:5000/api/recipes/create", newRecipe)
+        axios.post("http://localhost:5000/api/recipes/create", newRecipe, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
             })

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, createContext } from 'react'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import Main from './views/Main'
@@ -19,9 +19,9 @@ function App() {
               <Route exact path="/dashboard" element={<Main token={token}/>} />
               <Route path='/' element={<Login setToken={setToken} setUserId={setUserId}/>}/>
               <Route path='/register' element={<Register setToken={setToken} />}/>
-              <Route path='/create/recipe' element={<RecipeForm userId={userId}/>}/>
+              <Route path='/create/recipe' element={<RecipeForm userId={userId} token={token}/>}/>
               <Route path='/recipe/:id' element={<ViewRecipe />} />
-              <Route path='/recipe/update/:id' element={<UpdateRecipe />}/>
+              <Route path='/recipe/update/:id' element={<UpdateRecipe userId={userId} token={token}/>}/>
             </Routes>
     </div>
   )

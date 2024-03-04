@@ -37,8 +37,8 @@ class User(BaseModel):
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
         user_id = connectToMySQL(cls.db).query_db(query, data)
-        access_token = create_access_token(identity=data['email'])
-        return {'access_token': access_token, 'hasErrors': False, 'user_id': user_id}
+        access_token = create_access_token(identity=user_id)
+        return {'access_token': access_token, 'hasErrors': False}
     
     # Read All Users
 
@@ -97,9 +97,12 @@ class User(BaseModel):
                 ;"""
         result = connectToMySQL(cls.db).query_db(query, data)
         if result:
-            this_user = cls(result[0])
-            this_user.created_at = this_user.created_at.isoformat()
-            this_user.updated_at = this_user.updated_at.isoformat()
+            this_user = {
+                'id': result[0]['id'],
+                'username': result[0]['username'],
+                'email': result[0]['email'],
+                'password': result[0]['password']
+            }
             return this_user
         return False
     
@@ -122,9 +125,9 @@ class User(BaseModel):
     def token(cls, data):
         this_user = cls.get_user_by_email(data['email'])
         if this_user:
-            if bcrypt.check_password_hash(this_user.password, data['password']):
-                access_token = create_access_token(identity=data['email'])
-                return {'access_token': access_token, 'hasErrors': False, 'user_id': this_user.id}
+            if bcrypt.check_password_hash(this_user['password'], data['password']):
+                access_token = create_access_token(identity=this_user['id'])
+                return {'access_token': access_token, 'hasErrors': False}
         return {'error': 'Invalid login information.', 'hasErrors': True}
     
     @classmethod

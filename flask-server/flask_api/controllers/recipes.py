@@ -8,7 +8,8 @@ from flask_jwt_extended import jwt_required
 @api.route('/api/recipes/create', methods=["POST"])
 @jwt_required()
 def create_recipe():
-    response = recipe.Recipe.create_recipe(request.json)
+    token_from_request = request.headers['Authorization']
+    response = recipe.Recipe.create_recipe(request.json, token_from_request)
     if response['hasErrors']:
         return response['errors'], 500
     return response, 201
@@ -30,7 +31,8 @@ def read_all_recipes():
 @api.route('/api/recipe/update', methods = ["POST"])
 @jwt_required()
 def update_recipe():
-    response = recipe.Recipe.update_recipe(request.json)
+    token_from_request = request.headers['Authorization']
+    response = recipe.Recipe.update_recipe(request.json, token_from_request)
     if response['hasErrors']:
         return response['errors'], 500
     return "success", 201
@@ -40,5 +42,6 @@ def update_recipe():
 @api.route('/api/recipe/delete/<int:recipe_id>', methods = ["DELETE"])
 @jwt_required()
 def delete_recipe(recipe_id):
-    recipe.Recipe.delete_recipe(recipe_id)
+    token_from_request = request.headers['Authorization']
+    recipe.Recipe.delete_recipe(recipe_id, token_from_request)
     return {}, 204
