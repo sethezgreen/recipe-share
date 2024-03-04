@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const Login = (props) => {
     const navigate = useNavigate()
-    const {setToken} = props
+    const {setToken, setUserId} = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState("")
@@ -17,6 +17,7 @@ const Login = (props) => {
             .then((res) => {
                 console.log(res)
                 setToken(res.data.access_token)
+                setUserId(res.data.user_id)
                 navigate('/dashboard')
             })
             .catch((err) => {
