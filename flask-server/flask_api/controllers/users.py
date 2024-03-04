@@ -29,6 +29,11 @@ def read_users():
     all_users = user.User.get_users()
     return (all_users)
 
+@api.route('/api/users/<int:id>')
+def read_user_with_recipes(id):
+    this_user = user.User.get_user_with_recipes(id)
+    return this_user, 201
+
 # Token Refresh
 
 @api.after_request

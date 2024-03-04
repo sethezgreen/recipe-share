@@ -51,6 +51,43 @@ class User(BaseModel):
         return connectToMySQL(cls.db).query_db(query)
     
     @classmethod
+    def get_user_with_recipes(cls, id):
+        data = {'id': id}
+        query = """
+            SELECT *
+            FROM users
+            LEFT JOIN recipes
+            ON recipes.user_id = %(id)s
+            WHERE users.id = %(id)s
+            ;"""
+        results = connectToMySQL(cls.db).query_db(query, data)
+        result = results[0]
+        this_user = {
+            'id': result['id'],
+            'username': result['username'],
+            'firstName': result['first_name'],
+            'lastName': result['last_name'],
+            'email': result['email'],
+            'recipes': []
+        }
+        for result in results:
+            if result['recipes.id']:
+                one_recipe = {
+                    'id': result['recipes.id'],
+                    'title': result['title'],
+                    'description': result['description'],
+                    'ingredients': result['ingredients'],
+                    'directions': result['directions'],
+                    'prep_time': result['prep_time'],
+                    'cook_time': result['cook_time'],
+                    'created_at': result['recipes.created_at'].isoformat(),
+                    'updated_at': result['recipes.updated_at'].isoformat(),
+                    'user_id': result['user_id']
+                }
+                this_user['recipes'].append(one_recipe)
+        return this_user
+    
+    @classmethod
     def get_user_by_email(cls, email):
         data = {'email' : email}
         query = """
