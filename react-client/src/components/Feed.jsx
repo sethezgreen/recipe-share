@@ -4,7 +4,7 @@ import '../css/feed.css'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Feed = (props) => {
-    const {token} = props
+    const {token, setRecipeId, setUserId} = props
     const [recipes, setRecipes] = useState([])
     const navigate = useNavigate()
 
@@ -19,19 +19,21 @@ const Feed = (props) => {
             .catch(err => console.log(err))
     }, [token])
 
-    const recipeOnClick = (id) => {
-        navigate(`/recipe/${id}`)
+    const usernameOnClick = (e, id) => {
+        e.stopPropagation()
+        setUserId(id)
     }
 
     return (
         <div className='feed'>
             {
                 recipes.map((recipe) => (
-                    <div key={recipe.id} className='recipe-card' onClick={() => recipeOnClick(recipe.id)}>
+                    <div key={recipe.id} className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
                         <div className='top'>
-                            <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
-                            <p>Posted By: {recipe.user.username}</p>
+                            <h3 className='blue-hover'>{recipe.title}</h3>
+                            <p className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user.id)}>Posted By: {recipe.user.username}</p>
                         </div>
+                        <p>Description: {recipe.description}</p>
                         <div className='main'>
                             <div>
                                 <p>Ingredients:</p>

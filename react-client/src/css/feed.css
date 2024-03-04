@@ -8,6 +8,11 @@
     border: 2px solid black;
 }
 
+.recipe-card:hover {
+    cursor: pointer;
+    background-color: darkgrey;
+}
+
 .top {
     display: flex;
     justify-content: space-between;
@@ -16,4 +21,8 @@
 .main {
     display: flex;
     justify-content: space-between;
+}
+
+.blue-hover:hover {
+    color: blue;
 }
