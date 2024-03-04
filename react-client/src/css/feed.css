@@ -1,0 +1,19 @@
+.feed {
+    width: 100%;
+}
+
+.recipe-card {
+    margin: 10px;
+    padding: 15px;
+    border: 2px solid black;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+}
