@@ -28,8 +28,9 @@ def read_all_recipes():
 
 @api.route('/api/recipe/update', methods = ["POST"])
 def update_recipe():
-    recipe.Recipe.update_recipe(request.json)
-    # need to return updated object
+    response = recipe.Recipe.update_recipe(request.json)
+    if response['hasErrors']:
+        return response['errors'], 500
     return "success", 201
 
 # Delete Recipe Route

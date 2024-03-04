@@ -27,7 +27,7 @@ class Recipe(BaseModel):
     
     @classmethod
     def create_recipe(cls, data):
-        errorList = cls.validate_recipe (data)
+        errorList = cls.validate_recipe(data)
         if len(errorList):
             return {'errors': errorList, 'hasErrors': True}
         recipe_data = {
@@ -127,6 +127,9 @@ class Recipe(BaseModel):
 
     @classmethod
     def update_recipe(cls, data):
+        errorList = cls.validate_recipe(data)
+        if len(errorList):
+            return {'errors': errorList, 'hasErrors': True}
         query = """
                 UPDATE recipes
                 SET
@@ -138,9 +141,8 @@ class Recipe(BaseModel):
                     cook_time = %(cook_time)s
                 WHERE id = %(recipe_id)s
             ;"""
-        result = connectToMySQL(cls.db).query_db(query, data)
-        # need to return updated object
-        return True
+        connectToMySQL(cls.db).query_db(query, data)
+        return {'hasErrors': False}
     
     # Delete Recipe
 
@@ -165,12 +167,14 @@ class Recipe(BaseModel):
             errorList['ingredients'] = "Please enter the ingredients."
         if len(data['directions']) < 2:
             errorList['directions'] = "Please enter the directions."
-        if len(data['prep_time']) < 1:
+        if isinstance(data['prep_time'], int):
+            if int(data['prep_time']) < 1:
+                errorList['prepTime'] = "Prep time must be greater than 0."
+        elif len(data['prep_time']) < 1:
             errorList['prepTime'] = "Please enter a prep time."
-        elif int(data['prep_time']) < 1:
-            errorList['prepTime'] = "Prep time must be greater than 0."
-        if len(data['cook_time']) < 1:
+        if isinstance(data['cook_time'], int):
+            if int(data['cook_time']) < 1:
+                errorList['cookTime'] = "Cook time must be greater than 0."
+        elif len(data['cook_time']) < 1:
             errorList['cookTime'] = "Please enter a cook time."
-        elif int(data['cook_time']) < 1:
-            errorList['cookTime'] = "Cook time must be greater than 0."
         return errorList
