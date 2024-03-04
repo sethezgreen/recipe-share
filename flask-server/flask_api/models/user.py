@@ -151,7 +151,7 @@ class User(BaseModel):
         if len(data['first_name']) < 2:
             errorList['firstName'] = "First Name must be at least 2 characters."
         if len(data['last_name']) < 2:
-            errorList['lastName'] = "Last Name be at least 2 characters."
+            errorList['lastName'] = "Last Name must be at least 2 characters."
         if len(data['password']) < 8:
             errorList['password'] = "Password must be at least 8 characters."
         if data['password'] != data['confirm_password']:
