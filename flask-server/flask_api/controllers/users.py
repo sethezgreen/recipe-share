@@ -1,5 +1,5 @@
 from flask_api import api
-from flask import request, session
+from flask import request
 import json
 from datetime import datetime, timezone, timedelta
 from flask_jwt_extended import get_jwt, get_jwt_identity, jwt_required, create_access_token
@@ -60,5 +60,4 @@ def token():
 
 @api.route('/api/logout', methods=["POST"])
 def logout():
-    session.clear()
     return user.User.logout()

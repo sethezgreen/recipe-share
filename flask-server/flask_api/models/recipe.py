@@ -61,27 +61,29 @@ class Recipe(BaseModel):
                 WHERE recipes.id = %(id)s
             ;"""
         results = connectToMySQL(cls.db).query_db(query, data)
-        print(f"results from DB: {results}")
         result = results[0]
-        one_recipe = cls(result)
-        # change datetime to isoformat in the recipe
-        one_recipe.created_at = one_recipe.created_at.isoformat()
-        one_recipe.updated_at = one_recipe.updated_at.isoformat()
-        one_recipe.user = user.User({
-            'id': result['users.id'],
-            'username': result['username'],
-            'first_name': result['first_name'],
-            'last_name': result['last_name'],
-            'email': result['email'],
-            'password': result['password'],
-            # may need to leave password out
-            'created_at': result['users.created_at'].isoformat(),
-            'updated_at': result['users.updated_at'].isoformat()
-        })
-
-        # Recipe object to JSON
-        one_recipeJSON = one_recipe.toJson()
-        return one_recipeJSON
+        one_recipe = {
+            'id': result['id'],
+            'title': result['title'],
+            'description': result['description'],
+            'ingredients': result['ingredients'],
+            'directions': result['directions'],
+            'prep_time': result['prep_time'],
+            'cook_time': result['cook_time'],
+            'created_at': result['created_at'].isoformat(),
+            'updated_at': result['updated_at'].isoformat(),
+            'user_id': result['user_id'],
+            'user': {
+                'id': result['users.id'],
+                'username': result['username'],
+                'first_name': result['first_name'],
+                'last_name': result['last_name'],
+                'email': result['email'],
+                'created_at': result['users.created_at'].isoformat(),
+                'updated_at': result['users.updated_at'].isoformat()
+            }
+        }
+        return one_recipe
     
     # Read all recipes
 
@@ -92,6 +94,7 @@ class Recipe(BaseModel):
                 FROM recipes
                 JOIN users
                 ON users.id = recipes.user_id
+                ORDER BY recipes.created_at DESC
             ;"""
         results = connectToMySQL(cls.db).query_db(query)
         all_recipes = []
