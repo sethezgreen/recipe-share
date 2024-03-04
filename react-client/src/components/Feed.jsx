@@ -31,7 +31,7 @@ const Feed = (props) => {
                     <div key={recipe.id} className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
                         <div className='top'>
                             <h3 className='blue-hover'>{recipe.title}</h3>
-                            <p className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user.id)}>Posted By: {recipe.user.username}</p>
+                            <p className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>Posted By: {recipe.user.username}</p>
                         </div>
                         <p>Description: {recipe.description}</p>
                         <div className='main'>

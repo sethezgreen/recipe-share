@@ -4,6 +4,7 @@ import TopNav from '../components/TopNav'
 import Feed from '../components/Feed'
 import { Link } from 'react-router-dom'
 import ViewRecipe from '../components/ViewRecipe'
+import ViewUser from '../components/ViewUser'
 
 const Main = (props) => {
     const {token} = props
@@ -13,6 +14,7 @@ const Main = (props) => {
     return (
         <div className='main_view'>
             <TopNav />
+            <div>
             {/* sidenav component */}
             {
                 recipeId?
@@ -23,7 +25,7 @@ const Main = (props) => {
                 userId?
                 <div>
                     <button onClick={()=> setUserId("")}>Back to Feed</button>
-                    <p>view one user with user id: {userId}</p>
+                    <ViewUser id={userId}/>
                 </div>:
                 <div>
                     <h3>Feed</h3>
@@ -31,6 +33,7 @@ const Main = (props) => {
                     <Feed token={token} setRecipeId={setRecipeId} setUserId={setUserId}/>
                 </div>
             }
+            </div>
         </div>
     )
 }
