@@ -1,5 +1,5 @@
 import React from 'react'
-import './topnav.css'
+import '../css/topnav.css'
 import LogoutButton from './LogoutButton'
 import useToken from './useToken'
 
