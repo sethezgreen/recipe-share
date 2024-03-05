@@ -3,8 +3,9 @@ import '../css/topnav.css'
 import LogoutButton from './LogoutButton'
 import useToken from './useToken'
 
-function TopNav() {
+function TopNav(props) {
     const { removeToken } = useToken() 
+    const { toggleModal } = props
     
     return (
         <div className='top-nav'>
@@ -15,7 +16,7 @@ function TopNav() {
             </form>
             <div>
                 <button>DarkMode</button>
-                <button>Profile</button>
+                <button onClick={toggleModal}>Profile</button>
                 <LogoutButton token={removeToken}/>
             </div>
         </div>

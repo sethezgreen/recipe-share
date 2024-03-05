@@ -1,11 +1,8 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 
 const UpdateRecipe = (props) => {
-    const navigate = useNavigate()
-    const {id} = useParams()
-    const {token, userId} = props
+    const {token, userId, recipeId, setEditing} = props
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [ingredients, setIngredients] = useState("")
@@ -16,7 +13,7 @@ const UpdateRecipe = (props) => {
     const [errors, setErrors] = useState([])
     
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/recipes/${id}`)
+        axios.get(`http://localhost:5000/api/recipes/${recipeId}`)
             .then((res) => {
                 setTitle(res.data.title)
                 setDescription(res.data.description)
@@ -35,7 +32,7 @@ const UpdateRecipe = (props) => {
         e.preventDefault()
 
         const updatedRecipe = {
-            "recipe_id": id,
+            "recipe_id": recipeId,
             title,
             description,
             ingredients,
@@ -44,10 +41,10 @@ const UpdateRecipe = (props) => {
             'cook_time': cookTime,
             'user_id': creatorId
         }
-        axios.post("http://localhost:5000/api/recipe/update", updatedRecipe, {headers: {Authorization: `Bearer ${token}`}})
+        axios.post("http://localhost:5000/api/recipes/update", updatedRecipe, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
-                navigate(`/dashboard`)
+                setEditing(false)
             })
             .catch((err) => {
                 console.log(err)
@@ -57,6 +54,7 @@ const UpdateRecipe = (props) => {
     
     return (
         <div>
+            <button onClick={() => setEditing(false)} type='button'>Back to {title}</button>
             <h1>Update {title}</h1>
             <form onSubmit={submitHandler}>
                 <div>
@@ -113,7 +111,7 @@ const UpdateRecipe = (props) => {
                         null
                     }
                 </div>
-                <button>Update</button>
+                <input type="submit" value="Update" />
             </form>
         </div>
     )

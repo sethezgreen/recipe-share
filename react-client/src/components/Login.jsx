@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Login = (props) => {
-    const navigate = useNavigate()
-    const {setToken, setUserId} = props
+    const {setToken, setUserId, setModal} = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState("")
@@ -18,7 +16,7 @@ const Login = (props) => {
                 console.log(res)
                 setToken(res.data.access_token)
                 setUserId(res.data.user_id)
-                navigate('/dashboard')
+                setModal(false)
             })
             .catch((err) => {
                 console.log(err)

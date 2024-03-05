@@ -6,10 +6,9 @@ import { Link, useNavigate } from 'react-router-dom'
 const Feed = (props) => {
     const {token, setRecipeId, setUserId} = props
     const [recipes, setRecipes] = useState([])
-    const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/recipes', {headers: {Authorization: 'Bearer' + token}}) // authorization headers not working
+        axios.get('http://localhost:5000/api/recipes')
             .then((res) => {
                 setRecipes(res.data)
                 // console.log(`response data: ${res.data[0]["title"]}`)
@@ -30,8 +29,8 @@ const Feed = (props) => {
                 recipes.map((recipe) => (
                     <div key={recipe.id} className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
                         <div className='top'>
-                            <h3 className='blue-hover'>{recipe.title}</h3>
-                            <p className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>Posted By: {recipe.user.username}</p>
+                            <h3 className='blue-hover'><u>{recipe.title}</u></h3>
+                            <p >Posted By: <span className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>@{recipe.user.username}</span></p>
                         </div>
                         <p>Description: {recipe.description}</p>
                         <div className='main'>
