@@ -1,23 +1,27 @@
 import React from 'react'
 import '../css/topnav.css'
 import LogoutButton from './LogoutButton'
-import useToken from './useToken'
 
 function TopNav(props) {
-    const { removeToken } = useToken() 
-    const { toggleModal } = props
+    const { toggleModal, token, logoutCallback } = props
+
+    const codeButtonOnClick = () => {
+        window.open("https://github.com/sethezgreen/solo-project", "_blank", "noreferrer")
+    }
     
     return (
         <div className='top-nav'>
-            <button>About</button>
+            <button onClick={() => codeButtonOnClick()}>Code</button>
             <form>
                 {/* need search icon */}
                 <input type="search" name="" id="" />
             </form>
             <div>
-                <button>DarkMode</button>
-                <button onClick={toggleModal}>Profile</button>
-                <LogoutButton token={removeToken}/>
+                {
+                    token?
+                    <LogoutButton logoutCallback={logoutCallback}/>:
+                    <button onClick={toggleModal}>Login</button>
+                }
             </div>
         </div>
     )

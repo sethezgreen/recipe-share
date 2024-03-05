@@ -27,7 +27,7 @@ class Recipe(BaseModel):
     def decode_request_token(cls, access_token):
         bearer, _, token = access_token.partition(' ')
         token_decoded = decode_token(token)
-        userId = token_decoded['sub']
+        userId = token_decoded['sub']['id']
         return userId
 
     # Create Recipe
@@ -180,7 +180,8 @@ class Recipe(BaseModel):
                 FROM recipes
                 WHERE id = %(id)s
             ;"""
-        return connectToMySQL(cls.db).query_db(query, data)
+        connectToMySQL(cls.db).query_db(query, data)
+        return {'hasErrors': False}
     
     @staticmethod
     def validate_recipe(data):

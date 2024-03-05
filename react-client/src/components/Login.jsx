@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const Login = (props) => {
-    const {setToken, setUserId, setModal} = props
+    const {setToken, toggleModal} = props
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState("")
@@ -15,8 +15,7 @@ const Login = (props) => {
             .then((res) => {
                 console.log(res)
                 setToken(res.data.access_token)
-                setUserId(res.data.user_id)
-                setModal(false)
+                toggleModal()
             })
             .catch((err) => {
                 console.log(err)
@@ -26,7 +25,7 @@ const Login = (props) => {
     
     return (
         <div>
-            <h1>Login</h1>
+            <h2>Login</h2>
             <form onSubmit={submitHandler}>
                 {
                     errors.length > 0?

@@ -4,28 +4,24 @@ import { Route, Routes } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import Main from './views/Main'
 import useToken from './components/useToken'
-import Login from './components/Login'
-import Register from './components/Register'
-import RecipeForm from './components/RecipeForm'
 
 function App() {
   const { token, setToken } = useToken("")
   const [tokenId, setTokenId] = useState("")
+  const [loggedUser, setLoggedUser] = useState({})
 
   useEffect(() => {
     if (token) {
       const decoded = jwtDecode(token)
-      setTokenId(decoded.sub)
+      setTokenId(decoded.sub.id)
+      setLoggedUser(decoded.sub)
     }
   },[token])
 
   return (
     <div className="app">
             <Routes>
-              <Route exact path="/dashboard" element={<Main token={token} setToken={setToken} tokenId={tokenId}/>} />
-              <Route path='/' element={<Login setToken={setToken}/>}/>
-              <Route path='/register' element={<Register setToken={setToken} />}/>
-              {/* <Route path='/create/recipe' element={<RecipeForm userId={userId} token={token}/>}/> */}
+              <Route exact path="/dashboard" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
             </Routes>
     </div>
   )

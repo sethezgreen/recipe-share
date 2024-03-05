@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 const RecipeForm = (props) => {
-    const {userId, token} = props
+    const {token, setCreating} = props
     const [title, setTitle] = useState("")
     const [description, setDescription] = useState("")
     const [ingredients, setIngredients] = useState("")
@@ -25,6 +25,7 @@ const RecipeForm = (props) => {
         axios.post("http://localhost:5000/api/recipes/create", newRecipe, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
+                setCreating(false)
             })
             .catch((err) => {
                 console.log(err)
@@ -34,6 +35,7 @@ const RecipeForm = (props) => {
 
     return (
         <div>
+            <h1>Post a New Recipe</h1>
             <form onSubmit={submitHandler}>
                 <div>
                     <label>Title:</label>

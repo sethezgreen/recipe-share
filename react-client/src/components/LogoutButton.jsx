@@ -1,15 +1,17 @@
 import React from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import useToken from './useToken'
 
 const LogoutButton = (props) => {
-    const navigate = useNavigate()
+    const {removeToken} = useToken()
+    const {logoutCallback} = props
 
     const logout = () => {
         axios.post('http://localhost:5000/api/logout')
             .then((res) => {
-                props.token()
-                navigate('/')
+                console.log(res)
+                removeToken()
+                logoutCallback()
             })
             .catch((err) => {
                 console.log(err)
@@ -17,7 +19,7 @@ const LogoutButton = (props) => {
     }
     
     return (
-        <button onClick={logout}>logout</button>
+        <button onClick={logout} >Logout</button>
     )
 }
 

@@ -21,7 +21,6 @@ class User(BaseModel):
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        #What needs to be added here for class association?
 
     # Create Users
 
@@ -37,7 +36,17 @@ class User(BaseModel):
                 VALUES (%(username)s, %(first_name)s, %(last_name)s, %(email)s, %(password)s)
                 ;"""
         user_id = connectToMySQL(cls.db).query_db(query, data)
-        access_token = create_access_token(identity=user_id)
+        user_dict = {
+            'id': user_id,
+            'username': data['username'],
+            'firstName': data['first_name'],
+            'lastName': data['last_name'],
+            'email': data['email'],
+            'recipes': []
+        }
+        # make user dict with data from req and add user id
+        # send this user dict as the identity
+        access_token = create_access_token(identity=user_dict)
         return {'access_token': access_token, 'hasErrors': False}
     
     # Read All Users
@@ -126,7 +135,8 @@ class User(BaseModel):
         this_user = cls.get_user_by_email(data['email'])
         if this_user:
             if bcrypt.check_password_hash(this_user['password'], data['password']):
-                access_token = create_access_token(identity=this_user['id'])
+                this_user_with_recipes = cls.get_user_with_recipes(this_user['id'])
+                access_token = create_access_token(identity=this_user_with_recipes)
                 return {'access_token': access_token, 'hasErrors': False}
         return {'error': 'Invalid login information.', 'hasErrors': True}
     

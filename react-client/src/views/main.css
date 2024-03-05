@@ -4,7 +4,7 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    background-color: #1E1E1E;
+    background-color: var(--primary);
     border-radius: 5px;
     max-height: 90vh;
 }
@@ -24,7 +24,7 @@
 }
 
 .background-border-rad{
-    background-color: grey;
+    background-color: var(--secondary);
     padding: 5px 20px 5px 20px;
 }
 
@@ -33,6 +33,24 @@
     justify-content: space-around;
     align-items: center;
     height: 10%;
+}
+
+.pointer-hover :hover {
+    cursor: pointer;
+}
+
+/* Coloring */
+
+.primary {
+    color: var(--primary)
+}
+
+.accent {
+    color: var(--accent);
+}
+
+.font-larger {
+    font-size: larger;
 }
 
 /* Modal CSS */

@@ -28,20 +28,22 @@ def read_all_recipes():
 
 # Update Recipe Route
 
-@api.route('/api/recipe/update', methods = ["POST"])
+@api.route('/api/recipes/update', methods = ["POST"])
 @jwt_required()
 def update_recipe():
     token_from_request = request.headers['Authorization']
     response = recipe.Recipe.update_recipe(request.json, token_from_request)
     if response['hasErrors']:
         return response['errors'], 500
-    return "success", 201
+    return "update successful", 201
 
 # Delete Recipe Route
 
-@api.route('/api/recipe/delete/<int:recipe_id>', methods = ["DELETE"])
+@api.route('/api/recipes/delete/<int:recipe_id>', methods = ["DELETE"])
 @jwt_required()
 def delete_recipe(recipe_id):
     token_from_request = request.headers['Authorization']
-    recipe.Recipe.delete_recipe(recipe_id, token_from_request)
-    return {}, 204
+    response = recipe.Recipe.delete_recipe(recipe_id, token_from_request)
+    if response['hasErrors']:
+        return response['errors'], 500
+    return "delete successful", 204

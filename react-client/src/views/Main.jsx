@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import './main.css'
 import TopNav from '../components/TopNav'
-import Feed from '../components/Feed'
-import { Link } from 'react-router-dom'
+import MainFeed from '../components/MainFeed'
 import ViewRecipe from '../components/ViewRecipe'
 import ViewUser from '../components/ViewUser'
-import Login from '../components/Login'
 import SideNav from '../components/SideNav'
+import RecipeForm from '../components/RecipeForm'
+import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
-    const {token, setToken, tokenId} = props
+    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser} = props
     const [recipeId, setRecipeId] = useState("")
     const [userId, setUserId] = useState("")
     const [modal, setModal] = useState(false)
-    
+    const [creating, setCreating] = useState(false)
+
     const toggleModal = () => {
         setModal(!modal)
     }
@@ -24,12 +25,24 @@ const Main = (props) => {
         document.body.classList.remove('active-modal')
     }
 
+    const logoutCallback = () => {
+        setToken("")
+        setTokenId("")
+        setLoggedUser({})
+        alert("logout successful")
+    }
+
     return (
         <div className='main_view'>
-            <TopNav toggleModal={toggleModal}/>
+            <TopNav toggleModal={toggleModal} token={token} logoutCallback={logoutCallback}/>
             <div className='main-content'>
-            <SideNav token={token}/>
+            <SideNav token={token} loggedUser={loggedUser} setUserId={setUserId}/>
             {
+                creating?
+                <div className='content-div'>
+                    <button onClick={()=> setCreating(false)}>Back to Feed</button>
+                    <RecipeForm token={token} setCreating={setCreating}/>
+                </div>:
                 recipeId?
                 <div className='content-div'>
                     <button onClick={()=> setRecipeId("")}>Back to Feed</button>
@@ -38,33 +51,25 @@ const Main = (props) => {
                 userId?
                 <div className='content-div'>
                     <button onClick={()=> setUserId("")}>Back to Feed</button>
-                    <ViewUser id={userId} setRecipeId={setRecipeId}/>
+                    <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId}/>
                 </div>:
                 <div className='content-div'>
                     <div className='dsp-flex'>
-                        <h3 className='background-border-rad'>Feed</h3>
+                        <h3 className='background-border-rad primary'>Feed</h3>
                         {
                             token?
-                            <Link to={'http://localhost:5173/create/recipe'} className='background-border-rad'>add recipe</Link>:
-                            <p className='background-border-rad'>Log in to add a recipe</p>
+                            <button onClick={() => setCreating(true)} className='background-border-rad accent'>add recipe</button>:
+                            <button onClick={() => toggleModal()} className='background-border-rad accent'>Log in to add a recipe</button>
                         }
                     </div>
-                    <Feed token={token} setRecipeId={setRecipeId} setUserId={setUserId}/>
+                    <MainFeed token={token} setRecipeId={setRecipeId} setUserId={setUserId}/>
                 </div>
             }
             </div>
 
             {
                 modal && (
-                    <div>
-                        <div className='overlay' onClick={toggleModal}></div>
-                        <div className='modal-content'>
-                            <Login setToken={setToken} setModal={setModal}/>
-                            <button className='close-modal' onClick={toggleModal}>
-                                close
-                            </button>
-                        </div>
-                    </div>
+                    <LoginRegModal setToken={setToken} toggleModal={toggleModal}/>
                 )
             }
         </div>

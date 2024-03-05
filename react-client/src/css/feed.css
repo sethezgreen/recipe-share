@@ -18,13 +18,14 @@ h3 {
 .recipe-card {
     margin: 10px;
     padding: 15px;
-    background-color: grey;
+    background-color: var(--primary);
+    border: 2px solid var(--secondary);
     border-radius: 5px;
 }
 
 .recipe-card:hover {
     cursor: pointer;
-    background-color: darkgrey;
+    background-color: var(--green);
 }
 
 .top {
@@ -38,5 +39,9 @@ h3 {
 }
 
 .blue-hover:hover {
-    color: blue;
+    color: var(--accent);
+}
+
+.green-hover:hover {
+    color: var(--green)
 }

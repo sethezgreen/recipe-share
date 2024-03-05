@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../css/feed.css'
 import RecipeCard from './RecipeCard'
+import Feed from './Feed'
 
 const ViewUser = (props) => {
-    const {id, setRecipeId} = props
+    const {id, setRecipeId, tokenId} = props
     const [user, setUser] = useState({})
     const [recipes, setRecipes] = useState([])
     
@@ -18,17 +19,17 @@ const ViewUser = (props) => {
     },[])
     
     return (
-        <div>
-            <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
-            <h2>Recipes:</h2>
-            <div className='feed'>
-                {
-                    recipes.map((recipe) => (
-                        <RecipeCard recipe={recipe} setRecipeId={setRecipeId}/>
-                    ))
-                }
+        <>
+        {
+            tokenId == id?
+            <h1>Your Recipes:</h1>:
+            <div>
+                <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
+                <p>Recipes:</p>
             </div>
-        </div>
+        }
+            <Feed recipes={recipes} setRecipeId={setRecipeId}/>
+        </>
     )
 }
 

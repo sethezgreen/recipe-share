@@ -4,7 +4,7 @@ const RecipeCard = (props) => {
     const { recipe, setRecipeId, usernameOnClick } = props
 
     return (
-        <div key={recipe.id} className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
+        <div className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
             <div className='top'>
                 <h3 className='blue-hover'><u>{recipe.title}</u></h3>
                 {

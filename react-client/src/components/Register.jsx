@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const Register = (props) => {
-    const navigate = useNavigate()
-    const {setToken} = props
+    const {setToken, toggleModal} = props
     const [username, setUsername] = useState("")
     const [firstName, setFirstName] = useState("")
     const [lastName, setLastName] = useState("")
@@ -28,19 +26,17 @@ const Register = (props) => {
             .then((res) => {
                 console.log(res)
                 setToken(res.data.access_token)
-                navigate('/dashboard')
-                // need to set token upon registering
+                toggleModal()
             })
             .catch((err) => {
                 console.log(err)
                 setErrors(err.response.data)
-                // errors.email = [err.response.data.emailLength, err.response.data.emailValid, err.response.data.emailTaken]
             })
     }
     
     return (
         <div>
-            <p>{errors.email}</p>
+            <h2>Register</h2>
             <form onSubmit={submitHandler}>
                 <div>
                     <label>Username:</label>
