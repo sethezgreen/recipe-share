@@ -38,7 +38,7 @@ const Main = (props) => {
                 userId?
                 <div className='content-div'>
                     <button onClick={()=> setUserId("")}>Back to Feed</button>
-                    <ViewUser id={userId}/>
+                    <ViewUser id={userId} setRecipeId={setRecipeId}/>
                 </div>:
                 <div className='content-div'>
                     <div className='dsp-flex'>
