@@ -1,6 +1,9 @@
 .top-nav {
     display: flex;
     justify-content: space-between;
+    background-color: grey;
+    padding: 15px;
+    border-radius: 5px;
 }
 
 button {
