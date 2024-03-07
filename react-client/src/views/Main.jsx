@@ -46,12 +46,12 @@ const Main = (props) => {
                 recipeId?
                 <div className='content-div'>
                     <button onClick={()=> setRecipeId("")}>Back to Feed</button>
-                    <ViewRecipe recipeId={recipeId} token={token} tokenId={tokenId}/>
+                    <ViewRecipe recipeId={recipeId} token={token} tokenId={tokenId} setRecipeId={setRecipeId}/>
                 </div>:
                 userId?
                 <div className='content-div'>
                     <button onClick={()=> setUserId("")}>Back to Feed</button>
-                    <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId}/>
+                    <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
                 </div>:
                 <div className='content-div'>
                     <div className='dsp-flex'>

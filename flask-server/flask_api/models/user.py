@@ -6,7 +6,7 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(api)
 # The above is used when we do login registration, flask-bcrypt should already be in your env check the pipfile
 from flask_api.models.base_model import BaseModel
-from flask_jwt_extended import create_access_token, unset_jwt_cookies
+from flask_jwt_extended import create_access_token, unset_jwt_cookies, decode_token
 
 # Remember 'fat models, skinny controllers' more logic should go in here rather than in your controller. Your controller should be able to just call a function from the model for what it needs, ideally.
 
@@ -21,6 +21,14 @@ class User(BaseModel):
         self.password = data['password']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
+
+    # Decode Token From Request
+    @classmethod
+    def decode_request_token(cls, access_token):
+        bearer, _, token = access_token.partition(' ')
+        token_decoded = decode_token(token)
+        userId = token_decoded['sub']['id']
+        return userId
 
     # Create Users
 
@@ -67,9 +75,14 @@ class User(BaseModel):
             FROM users
             LEFT JOIN recipes
             ON recipes.user_id = %(id)s
+            LEFT JOIN user_has_followed_users
+            ON user_has_followed_users.user_id = %(id)s
+            LEFT JOIN users AS followed_users
+            ON followed_users.id = followed_user_id
             WHERE users.id = %(id)s
             ;"""
         results = connectToMySQL(cls.db).query_db(query, data)
+        # return results
         result = results[0]
         this_user = {
             'id': result['id'],
@@ -77,7 +90,8 @@ class User(BaseModel):
             'firstName': result['first_name'],
             'lastName': result['last_name'],
             'email': result['email'],
-            'recipes': []
+            'recipes': [],
+            'followed_users': []
         }
         for result in results:
             if result['recipes.id']:
@@ -94,7 +108,34 @@ class User(BaseModel):
                     'user_id': result['user_id']
                 }
                 this_user['recipes'].append(one_recipe)
+            # if result['followed_users.id']:
+            #     one_followed_user = {
+            #         'id': result['followed_users.id'],
+            #         'username': result['followed_users.username'],
+            #         'firstName': result['followed_users.first_name'],
+            #         'lastName': result['followed_users.last_name'],
+            #         'email': result['followed_users.email']
+            #     }
+            #     this_user['followed_users'].append(one_followed_user)
         return this_user
+    
+
+    # Test reading followers
+    @classmethod
+    def get_user_with_followed_users(cls, id):
+        data = {'id': id}
+        query = """
+            SELECT *
+            FROM users
+            LEFT JOIN user_has_followed_users
+            ON user_has_followed_users.user_id = %(id)s
+            LEFT JOIN users AS followed_users
+            ON followed_users.id = followed_user_id
+            LEFT JOIN recipes
+            ON recipes.user_id = %(id)s
+            WHERE users.id = %(id)s
+            ;"""
+        return connectToMySQL(cls.db).query_db(query, data)
     
     @classmethod
     def get_user_by_email(cls, email):
@@ -127,6 +168,21 @@ class User(BaseModel):
         if result:
             return True
         return False
+    
+    # Follow another user
+    @classmethod
+    def follow_user(cls, token_from_request, id):
+        userId = cls.decode_request_token(token_from_request)
+        data = {
+            'user_id': userId,
+            'followed_user_id': id
+        }
+        query = """
+            INSERT INTO user_has_followed_users (user_id, followed_user_id)
+            VALUES (%(user_id)s, %(followed_user_id)s)
+            ;"""
+        connectToMySQL(cls.db).query_db(query, data)
+        pass
     
     # JWT Login/Logout
 

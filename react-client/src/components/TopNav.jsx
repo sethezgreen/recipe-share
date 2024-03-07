@@ -12,10 +12,6 @@ function TopNav(props) {
     return (
         <div className='top-nav'>
             <button onClick={() => codeButtonOnClick()}>Code</button>
-            <form>
-                {/* need search icon */}
-                <input type="search" name="" id="" />
-            </form>
             <div>
                 {
                     token?

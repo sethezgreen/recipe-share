@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="app">
             <Routes>
-              <Route exact path="/dashboard" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
+              <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
             </Routes>
     </div>
   )

@@ -6,7 +6,7 @@ const ViewRecipe = (props) => {
     const [recipe, setRecipe] = useState({})
     const [user, setUser] = useState({})
     const [editing, setEditing] = useState(false)
-    const {recipeId, token, tokenId} = props
+    const {recipeId, setRecipeId, token, tokenId} = props
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/recipes/${recipeId}`)
@@ -23,7 +23,7 @@ const ViewRecipe = (props) => {
         axios.delete(`http://localhost:5000/api/recipes/delete/${recipeId}`, {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
-                
+                setRecipeId("")
             })
             .catch((err) =>{
                 console.log(err)

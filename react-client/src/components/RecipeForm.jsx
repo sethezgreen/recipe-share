@@ -48,7 +48,7 @@ const RecipeForm = (props) => {
                 </div>
                 <div>
                     <label>Description:</label>
-                    <input type="text" value={description || ""} onChange={(e) => setDescription(e.target.value)}/>
+                    <textarea value={description || ""} onChange={(e) => setDescription(e.target.value)}/>
                     {
                         errors.description?
                         <p>{errors.description}</p>:
@@ -57,7 +57,7 @@ const RecipeForm = (props) => {
                 </div>
                 <div>
                     <label>Ingredients:</label>
-                    <input type="text" value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)}/>
+                    <textarea type="text" value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)}/>
                     {
                         errors.ingredients?
                         <p>{errors.ingredients}</p>:
@@ -66,7 +66,7 @@ const RecipeForm = (props) => {
                 </div>
                 <div>
                     <label>Directions:</label>
-                    <input type="text" value={directions || ""} onChange={(e) => setDirections(e.target.value)}/>
+                    <textarea type="text" value={directions || ""} onChange={(e) => setDirections(e.target.value)}/>
                     {
                         errors.directions?
                         <p>{errors.directions}</p>:

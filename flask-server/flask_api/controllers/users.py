@@ -34,6 +34,21 @@ def read_user_with_recipes(id):
     this_user = user.User.get_user_with_recipes(id)
     return this_user, 201
 
+# Test reading route
+@api.route('/api/users/<int:id>/followed_users')
+def get_user_with_followed_users(id):
+    response = user.User.get_user_with_followed_users(id)
+    return response
+
+# Follow User Route
+
+@api.route('/api/users/follow/<int:id>', methods=["POST"])
+@jwt_required()
+def follow_user(id):
+    token_from_request = request.headers['Authorization']
+    user.User.follow_user(token_from_request, id)
+    return "success", 201
+
 # Token Refresh
 
 @api.after_request
