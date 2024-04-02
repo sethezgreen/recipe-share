@@ -15,11 +15,11 @@ const RecipeCard = (props) => {
             </div>
             <p>Description: {recipe.description}</p>
             <div className='main'>
-                <div>
+                <div className='recipe-info'>
                     <p>Ingredients:</p>
                     <p>{recipe.ingredients}</p>
                 </div>
-                <div>
+                <div className='recipe-info'>
                     <p>Directions:</p>
                     <p>{recipe.directions}</p>
                 </div>

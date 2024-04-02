@@ -58,7 +58,7 @@ const Main = (props) => {
                         <h3 className='background-border-rad primary'>Feed</h3>
                         {
                             token?
-                            <button onClick={() => setCreating(true)} className='background-border-rad accent'>add recipe</button>:
+                            <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover'>add recipe</button>:
                             <button onClick={() => toggleModal()} className='background-border-rad accent'>Log in to add a recipe</button>
                         }
                     </div>

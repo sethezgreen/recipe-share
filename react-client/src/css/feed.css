@@ -15,8 +15,10 @@ h3 {
     margin-left: 15px;
 }
 
+/* Recipe Card */
+
 .recipe-card {
-    margin: 10px;
+    margin: 10px 0;
     padding: 15px;
     background-color: var(--primary);
     border: 2px solid var(--secondary);
@@ -26,6 +28,13 @@ h3 {
 .recipe-card:hover {
     cursor: pointer;
     background-color: var(--green);
+}
+
+.recipe-info {
+    height: 5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* ellipsis not working */
 }
 
 .top {
