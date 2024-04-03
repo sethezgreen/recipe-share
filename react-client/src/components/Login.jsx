@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 const Login = (props) => {
     const {setToken, toggleModal} = props
@@ -26,7 +28,7 @@ const Login = (props) => {
     return (
         <div>
             <h2>Login</h2>
-            <form onSubmit={submitHandler}>
+            {/* <form onSubmit={submitHandler}>
                 {
                     errors.length > 0?
                     <p>{errors}</p>:
@@ -41,7 +43,23 @@ const Login = (props) => {
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <button>Login</button>
-            </form>
+            </form> */}
+            <Form onSubmit={submitHandler}>
+                {
+                    errors.length > 0?
+                    <Form.Text>{errors}</Form.Text>:
+                    null
+                }
+                <Form.Group>
+                    <Form.Label>Email:</Form.Label>
+                    <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                </Form.Group>
+                <Button variant='primary' type='submit'>Login</Button>
+            </Form>
         </div>
     )
 }

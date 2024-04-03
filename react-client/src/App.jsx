@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import Main from './views/Main'
