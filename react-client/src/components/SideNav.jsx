@@ -6,7 +6,7 @@ const SideNav = (props) => {
     const { token, toggleModal, logoutCallback, loggedUser, setUserId } = props
 
     return (
-        <div className='side-nav'>
+        <div className='side-nav mobile-hidden'>
             {
                 token?
                 <div>
