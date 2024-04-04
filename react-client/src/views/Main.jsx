@@ -37,7 +37,7 @@ const Main = (props) => {
             {/* <TopNav toggleModal={toggleModal} token={token} logoutCallback={logoutCallback}/> */}
             <border id='border'></border>
             <div className='main-content'>
-            <SideNav token={token} loggedUser={loggedUser} setUserId={setUserId}/>
+            <SideNav token={token} toggleModal={toggleModal} logoutCallback={logoutCallback} loggedUser={loggedUser} setUserId={setUserId}/>
             {
                 creating?
                 <div className='content-div'>
