@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './main.css'
+import '../css/main.css'
 import TopNav from '../components/TopNav'
 import MainFeed from '../components/MainFeed'
 import ViewRecipe from '../components/ViewRecipe'
@@ -33,8 +33,9 @@ const Main = (props) => {
     }
 
     return (
-        <div className='main_view'>
-            <TopNav toggleModal={toggleModal} token={token} logoutCallback={logoutCallback}/>
+        <div className='main-view'>
+            {/* <TopNav toggleModal={toggleModal} token={token} logoutCallback={logoutCallback}/> */}
+            <border id='border'></border>
             <div className='main-content'>
             <SideNav token={token} loggedUser={loggedUser} setUserId={setUserId}/>
             {
@@ -54,14 +55,15 @@ const Main = (props) => {
                     <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
                 </div>:
                 <div className='content-div'>
-                    <div className='dsp-flex'>
-                        <h3 className='background-border-rad primary'>Feed</h3>
+                    <header className='content-header'>
+                        {/* <h3 className='background-border-rad primary'>Feed</h3> */}
+                        <h3 className=''>Feed</h3>
                         {
                             token?
                             <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover'>add recipe</button>:
                             <button onClick={() => toggleModal()} className='background-border-rad accent'>Log in to add a recipe</button>
                         }
-                    </div>
+                    </header>
                     <MainFeed token={token} setRecipeId={setRecipeId} setUserId={setUserId}/>
                 </div>
             }

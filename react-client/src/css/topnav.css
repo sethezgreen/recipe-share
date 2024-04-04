@@ -1,6 +1,6 @@
 .top-nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     background-color: grey;
     padding: 15px;
     border-radius: 5px;

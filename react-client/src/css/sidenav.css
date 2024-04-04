@@ -1,11 +1,13 @@
 .side-nav {
-    margin-top: 9%;
+    margin-top: 0;
     margin-right: 3%;
     padding: 15px;
     background-color: grey;
     border-radius: 5px;
-    height: 75%;
-    width: 15%;
+    height: 95vh;
+    width: 200px;
+    position: sticky;
+    top: 10px;
 }
 
 .font-weight {

@@ -5,13 +5,13 @@ const Feed = (props) => {
     const { recipes, setRecipeId, usernameOnClick } = props
 
     return (
-        <div className='feed'>
+        <>
             {
                 recipes.map((recipe) => (
                     <RecipeCard key={recipe.id} recipe={recipe} setRecipeId={setRecipeId} usernameOnClick={usernameOnClick}/>
                 ))
             }
-        </div>
+        </>
     )
 }
 

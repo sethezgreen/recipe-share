@@ -6,8 +6,9 @@
 body {
   height: 100vh;
   color-scheme: light dark !important;
+  background-color: var(--primary);
   color: #FFFFFF !important;
-  background-image: url('/src/images/background-image.jpg') !important;
+  /* background-image: url('/src/images/background-image.jpg') !important; */
 }
 
 :root {

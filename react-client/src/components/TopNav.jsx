@@ -11,7 +11,7 @@ function TopNav(props) {
     
     return (
         <div className='top-nav'>
-            <button onClick={() => codeButtonOnClick()}>Code</button>
+            {/* <button onClick={() => codeButtonOnClick()}>Code</button> */}
             <div>
                 {
                     token?

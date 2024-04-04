@@ -1,10 +1,9 @@
 .feed {
     width: 100%;
+    margin-top: 55px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
-    height: 90%;
-    overflow: auto;
 }
 
 .feed::-webkit-scrollbar {
