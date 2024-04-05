@@ -28,22 +28,6 @@ const Login = (props) => {
     return (
         <div>
             <h2>Login</h2>
-            {/* <form onSubmit={submitHandler}>
-                {
-                    errors.length > 0?
-                    <p>{errors}</p>:
-                    null
-                }
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button>Login</button>
-            </form> */}
             <Form onSubmit={submitHandler}>
                 {
                     errors.length > 0?

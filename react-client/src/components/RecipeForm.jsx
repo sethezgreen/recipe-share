@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import Form from 'react-bootstrap/Form'
 
 const RecipeForm = (props) => {
     const {token, setCreating} = props
@@ -36,63 +37,63 @@ const RecipeForm = (props) => {
     return (
         <div>
             <h1>Post a New Recipe</h1>
-            <form onSubmit={submitHandler}>
-                <div>
-                    <label>Title:</label>
-                    <input type="text" value={title || ""} onChange={(e) => setTitle(e.target.value)}/>
+            <Form onSubmit={submitHandler} data-bs-theme="dark">
+                <Form.Group>
+                    <Form.Label>Title:</Form.Label>
+                    <Form.Control type='text' value={title || ""} onChange={(e) => setTitle(e.target.value)} />
                     {
                         errors.title?
-                        <p>{errors.title}</p>:
+                        <Form.Text>{errors.title}</Form.Text>:
                         null
                     }
-                </div>
-                <div>
-                    <label>Description:</label>
-                    <textarea value={description || ""} onChange={(e) => setDescription(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Description:</Form.Label>
+                    <Form.Control as='textarea' rows={3} value={description || ""} onChange={(e) => setDescription(e.target.value)} />
                     {
                         errors.description?
-                        <p>{errors.description}</p>:
+                        <Form.Text>{errors.description}</Form.Text>:
                         null
                     }
-                </div>
-                <div>
-                    <label>Ingredients:</label>
-                    <textarea type="text" value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Ingredients:</Form.Label>
+                    <Form.Control as='textarea' rows={3} value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)} />
                     {
                         errors.ingredients?
-                        <p>{errors.ingredients}</p>:
+                        <Form.Text>{errors.ingredients}</Form.Text>:
                         null
                     }
-                </div>
-                <div>
-                    <label>Directions:</label>
-                    <textarea type="text" value={directions || ""} onChange={(e) => setDirections(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Directions:</Form.Label>
+                    <Form.Control as='textarea' rows={3} value={directions || ""} onChange={(e) => setDirections(e.target.value)} />
                     {
                         errors.directions?
-                        <p>{errors.directions}</p>:
+                        <Form.Text>{errors.directions}</Form.Text>:
                         null
                     }
-                </div>
-                <div>
-                    <label>Prep Time:</label>
-                    <input type="number" value={prepTime || ""} onChange={(e) => setPrepTime(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>Prep Time:</Form.Label>
+                    <Form.Control type='number' value={prepTime || ""} onChange={(e) => setPrepTime(e.target.value)} />
                     {
                         errors.prepTime?
-                        <p>{errors.prepTime}</p>:
+                        <Form.Text>{errors.prepTime}</Form.Text>:
                         null
                     }
-                </div>
-                <div>
-                    <label>Cook Time:</label>
-                    <input type="number" value={cookTime || ""} onChange={(e) => setCookTime(e.target.value)}/>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Label>CookTime:</Form.Label>
+                    <Form.Control type='number' value={cookTime || ""} onChange={(e) => setCookTime(e.target.value)} />
                     {
                         errors.cookTime?
-                        <p>{errors.cookTime}</p>:
+                        <Form.Text>{errors.cookTime}</Form.Text>:
                         null
                     }
-                </div>
-                <button>Create</button>
-            </form>
+                </Form.Group>
+                <button type='submit'>Create</button>
+            </Form>
         </div>
     )
 }
