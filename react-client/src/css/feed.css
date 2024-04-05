@@ -10,15 +10,12 @@
     display: none;
 }
 
-h3 {
-    margin-left: 15px;
-}
-
 /* Recipe Card */
 
 .recipe-card {
+    display: flex;
+    gap: 0.5rem;
     margin: 10px 0;
-    padding: 15px;
     background-color: var(--primary);
     border: 2px solid var(--secondary);
     border-radius: 5px;
@@ -26,7 +23,15 @@ h3 {
 
 .recipe-card:hover {
     cursor: pointer;
-    background-color: var(--green);
+    background-color: #2b2a2a;
+}
+
+#recipe-img {
+    width: 35%;
+}
+
+.recipe-card-content {
+    margin: 1rem;
 }
 
 .recipe-info {
@@ -37,13 +42,20 @@ h3 {
 }
 
 .top {
-    display: flex;
+    /* display: flex; */
     justify-content: space-between;
 }
 
 .main {
     display: flex;
     justify-content: space-between;
+}
+
+.line-clamp {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
 }
 
 .blue-hover:hover {

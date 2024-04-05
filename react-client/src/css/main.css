@@ -1,6 +1,7 @@
 .main-view {
     margin: 0 auto;
     width: 80%;
+    min-height: 100vh;
     padding: 0 10px;
     display: flex;
     flex-direction: column;

@@ -1,10 +1,12 @@
-import React from 'react'
+import React from "react";
 
 const RecipeCard = (props) => {
-    const { recipe, setRecipeId, usernameOnClick } = props
+    const { recipe, setRecipeId, usernameOnClick } = props;
 
     return (
-        <div className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
+    <div className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
+        <img id="recipe-img" src="../../public/placeholder.jpg" alt="placeholder image" />
+        <div className="recipe-card-content">
             <div className='top'>
                 <h3 className='blue-hover'><u>{recipe.title}</u></h3>
                 {
@@ -13,8 +15,10 @@ const RecipeCard = (props) => {
                     null
                 }
             </div>
-            <p>Description: {recipe.description}</p>
-            <div className='main'>
+            <div className="line-clamp">
+                <p>Description: {recipe.description}</p>
+            </div>
+            {/* <div className='main'>
                 <div className='recipe-info'>
                     <p>Ingredients:</p>
                     <p>{recipe.ingredients}</p>
@@ -23,9 +27,10 @@ const RecipeCard = (props) => {
                     <p>Directions:</p>
                     <p>{recipe.directions}</p>
                 </div>
-            </div>
+            </div> */}
         </div>
-    )
-}
+    </div>
+    );
+};
 
-export default RecipeCard
+export default RecipeCard;
