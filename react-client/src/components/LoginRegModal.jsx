@@ -12,10 +12,13 @@ const LoginRegModal = (props) => {
             <div className='modal-content'>
             {
                 registering?
-                <Register setToken={setToken} toggleModal={toggleModal}/>:
-                <div>
+                <div className='dsp-grid'>
+                    <Register setToken={setToken} toggleModal={toggleModal}/>
+                    <button className='register-btn' onClick={() => setRegistering(false)}>Back to Login</button>
+                </div>:
+                <div className='dsp-grid'>
                     <Login setToken={setToken} toggleModal={toggleModal}/>
-                    <button onClick={() => setRegistering(true)}>Need an account?</button>
+                    <button className='register-btn' onClick={() => setRegistering(true)}>Need an account?</button>
                 </div>
             }
                 <button className='close-modal' onClick={toggleModal}>

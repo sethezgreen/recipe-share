@@ -55,15 +55,17 @@ const Main = (props) => {
                     <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
                 </div>:
                 <div className='content-div'>
-                    <header className='content-header'>
-                        {/* <h3 className='background-border-rad primary'>Feed</h3> */}
-                        <h3 className=''>Feed</h3>
-                        {
-                            token?
-                            <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover mobile-hidden'>add recipe</button>:
-                            <button onClick={() => toggleModal()} className='background-border-rad accent mobile-hidden'>Log in to add a recipe</button>
-                        }
-                    </header>
+                    <div className='content-header'>
+                        <header id='content-header'>
+                            {/* <h3 className='background-border-rad primary'>Feed</h3> */}
+                            <h3 className=''>Feed</h3>
+                            {
+                                token?
+                                <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover mobile-hidden'>add recipe</button>:
+                                <button onClick={() => toggleModal()} className='background-border-rad accent mobile-hidden'>Log in to add a recipe</button>
+                            }
+                        </header>
+                    </div>
                     <MainFeed token={token} setRecipeId={setRecipeId} setUserId={setUserId}/>
                 </div>
             }

@@ -27,8 +27,8 @@ const Login = (props) => {
     
     return (
         <div>
-            <h2>Login</h2>
-            <Form onSubmit={submitHandler}>
+            <h1>Login</h1>
+            <Form onSubmit={submitHandler} data-bs-theme="dark">
                 {
                     errors.length > 0?
                     <Form.Text>{errors}</Form.Text>:
@@ -36,13 +36,13 @@ const Login = (props) => {
                 }
                 <Form.Group>
                     <Form.Label>Email:</Form.Label>
-                    <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)} className='input'/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Password:</Form.Label>
-                    <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <Form.Control type='password' value={password} onChange={(e) => setPassword(e.target.value)} className='input'/>
                 </Form.Group>
-                <Button variant='primary' type='submit'>Login</Button>
+                <Button variant='primary' type='submit' className='submit-btn'>Login</Button>
             </Form>
         </div>
     )

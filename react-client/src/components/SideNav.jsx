@@ -10,7 +10,6 @@ const SideNav = (props) => {
             {
                 token?
                 <div>
-                    <LogoutButton logoutCallback={logoutCallback}/>
                     <p className='accent font-larger font-weight'>@{loggedUser.username}</p>
                     <p className='blue-hover pointer-hover' onClick={() => setUserId(loggedUser.id)}><u>My Recipes</u></p>
                     <p className='green-hover pointer-hover'><u>Bookmarked Recipes</u></p>
@@ -22,10 +21,11 @@ const SideNav = (props) => {
                         )):
                         <p>Follow someone to add</p>
                     }
+                    <LogoutButton logoutCallback={logoutCallback}/>
                 </div>:
             <>
-            <button onClick={toggleModal}>Login</button>
             <p>Log in to view Account Details</p>
+            <button onClick={toggleModal}>Login</button>
             </>
             }
             

@@ -39,10 +39,10 @@ const Register = (props) => {
     return (
         <>
             <h2>Register</h2>
-            <Form onSubmit={submitHandler}>
+            <Form onSubmit={submitHandler} data-bs-theme="dark">
                 <Form.Group>
                     <Form.Label>Username:</Form.Label>
-                    <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} className='input'/>
                     {
                         errors.usernameLength ||
                         errors.usernameTaken?
@@ -55,7 +55,7 @@ const Register = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>First Name:</Form.Label>
-                    <Form.Control type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)}/>
+                    <Form.Control type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className='input'/>
                     {
                         errors.firstName ?
                         <Form.Text>{errors.firstName}</Form.Text>:
@@ -64,7 +64,7 @@ const Register = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Last Name:</Form.Label>
-                    <Form.Control type="text" value={lastName} onChange={(e) => setLastName(e.target.value)}/>
+                    <Form.Control type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className='input'/>
                     {
                         errors.lastName ?
                         <Form.Text>{errors.lastName}</Form.Text>:
@@ -73,7 +73,7 @@ const Register = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Email:</Form.Label>
-                    <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+                    <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} className='input'/>
                     {
                         errors.emailLength || errors.emailValid || errors.emailTaken?
                         <div>
@@ -86,7 +86,7 @@ const Register = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Password:</Form.Label>
-                    <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} className='input'/>
                     {
                         errors.password ?
                         <Form.Text>{errors.password}</Form.Text>:
@@ -95,14 +95,14 @@ const Register = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Confirm Password:</Form.Label>
-                    <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                    <Form.Control type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className='input'/>
                     {
                         errors.confirmPassword ?
                         <Form.Text>{errors.confirmPassword}</Form.Text>:
                         null
                     }
                 </Form.Group>
-                <Button variant='primary' type='submit'>Register</Button>
+                <Button variant='primary' type='submit' className='submit-btn'>Register</Button>
             </Form>
         </>
     )
