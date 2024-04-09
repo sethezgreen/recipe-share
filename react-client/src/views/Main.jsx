@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import '../css/main.css'
-import TopNav from '../components/TopNav'
 import MainFeed from '../components/MainFeed'
 import ViewRecipe from '../components/ViewRecipe'
 import ViewUser from '../components/ViewUser'
@@ -34,35 +33,40 @@ const Main = (props) => {
 
     return (
         <div className='main-view'>
-            {/* <TopNav toggleModal={toggleModal} token={token} logoutCallback={logoutCallback}/> */}
             <div id='border'></div>
             <div className='main-content'>
             <SideNav token={token} toggleModal={toggleModal} logoutCallback={logoutCallback} loggedUser={loggedUser} setUserId={setUserId}/>
             {
                 creating?
                 <div className='content-div'>
-                    <button onClick={()=> setCreating(false)}>Back to Feed</button>
+                    <div className='content-header-container'>
+                        <button onClick={()=> setCreating(false)} className='content-header'>Back to Feed</button>
+                    </div>
                     <RecipeForm token={token} setCreating={setCreating}/>
                 </div>:
                 recipeId?
                 <div className='content-div'>
-                    <button onClick={()=> setRecipeId("")}>Back to Feed</button>
+                    <div className='content-header-container'>
+                        <button onClick={()=> setRecipeId("")} className='content-header'>Back to Feed</button>
+                    </div>
                     <ViewRecipe recipeId={recipeId} token={token} tokenId={tokenId} setRecipeId={setRecipeId}/>
                 </div>:
                 userId?
                 <div className='content-div'>
-                    <button onClick={()=> setUserId("")}>Back to Feed</button>
+                    <div className='content-header-container'>
+                        <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
+                    </div>
                     <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
                 </div>:
                 <div className='content-div'>
-                    <div className='content-header'>
-                        <header id='content-header'>
+                    <div className='content-header-container'>
+                        <header className='content-header'>
                             {/* <h3 className='background-border-rad primary'>Feed</h3> */}
                             <h3 className=''>Feed</h3>
                             {
                                 token?
-                                <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover mobile-hidden'>add recipe</button>:
-                                <button onClick={() => toggleModal()} className='background-border-rad accent mobile-hidden'>Log in to add a recipe</button>
+                                <button onClick={() => setCreating(true)} className='background-border-rad accent pointer-hover mobile-hidden'>post recipe</button>:
+                                <button onClick={() => toggleModal()} className='background-border-rad accent mobile-hidden'>Log in to post a recipe</button>
                             }
                         </header>
                     </div>

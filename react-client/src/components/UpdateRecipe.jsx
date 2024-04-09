@@ -60,7 +60,7 @@ const UpdateRecipe = (props) => {
             <Form onSubmit={submitHandler} data-bs-theme="dark">
                 <Form.Group>
                     <Form.Label>Title:</Form.Label>
-                    <Form.Control type='text' value={title || ""} onChange={(e) => setTitle(e.target.value)} />
+                    <Form.Control type='text' value={title || ""} onChange={(e) => setTitle(e.target.value)} className='input'/>
                     {
                         errors.title?
                         <Form.Text>{errors.title}</Form.Text>:
@@ -69,7 +69,7 @@ const UpdateRecipe = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Description:</Form.Label>
-                    <Form.Control as='textarea' rows={3} value={description || ""} onChange={(e) => setDescription(e.target.value)} />
+                    <Form.Control as='textarea' rows={3} value={description || ""} onChange={(e) => setDescription(e.target.value)} className='input'/>
                     {
                         errors.description?
                         <Form.Text>{errors.description}</Form.Text>:
@@ -78,7 +78,7 @@ const UpdateRecipe = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Ingredients:</Form.Label>
-                    <Form.Control as='textarea' rows={3} value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)} />
+                    <Form.Control as='textarea' rows={3} value={ingredients || ""} onChange={(e) => setIngredients(e.target.value)} className='input'/>
                     {
                         errors.ingredients?
                         <Form.Text>{errors.ingredients}</Form.Text>:
@@ -87,7 +87,7 @@ const UpdateRecipe = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Directions:</Form.Label>
-                    <Form.Control as='textarea' rows={3} value={directions || ""} onChange={(e) => setDirections(e.target.value)} />
+                    <Form.Control as='textarea' rows={3} value={directions || ""} onChange={(e) => setDirections(e.target.value)} className='input'/>
                     {
                         errors.directions?
                         <Form.Text>{errors.directions}</Form.Text>:
@@ -96,7 +96,7 @@ const UpdateRecipe = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Prep Time:</Form.Label>
-                    <Form.Control type='number' value={prepTime || ""} onChange={(e) => setPrepTime(e.target.value)} />
+                    <Form.Control type='number' value={prepTime || ""} onChange={(e) => setPrepTime(e.target.value)} className='input'/>
                     {
                         errors.prepTime?
                         <Form.Text>{errors.prepTime}</Form.Text>:
@@ -105,14 +105,14 @@ const UpdateRecipe = (props) => {
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>CookTime:</Form.Label>
-                    <Form.Control type='number' value={cookTime || ""} onChange={(e) => setCookTime(e.target.value)} />
+                    <Form.Control type='number' value={cookTime || ""} onChange={(e) => setCookTime(e.target.value)} className='input'/>
                     {
                         errors.cookTime?
                         <Form.Text>{errors.cookTime}</Form.Text>:
                         null
                     }
                 </Form.Group>
-                <button type='submit'>Update</button>
+                <button type='submit' className='submit-btn'>Update</button>
             </Form>
         </div>
     )

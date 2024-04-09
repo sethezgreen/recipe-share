@@ -36,7 +36,7 @@
     padding: 5px 20px 5px 20px;
 }
 
-.content-header {
+.content-header-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -50,7 +50,7 @@
     border-bottom-right-radius: 5px;
 }
 
-#content-header {
+.content-header {
     display: flex;
     justify-content: space-around;
     align-items: center;
