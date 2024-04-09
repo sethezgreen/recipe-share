@@ -6,7 +6,7 @@ const ViewRecipe = (props) => {
     const [recipe, setRecipe] = useState({})
     const [user, setUser] = useState({})
     const [editing, setEditing] = useState(false)
-    const {recipeId, setRecipeId, token, tokenId} = props
+    const {recipeId, setRecipeId, setUserId, token, tokenId} = props
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/recipes/${recipeId}`)
@@ -29,6 +29,12 @@ const ViewRecipe = (props) => {
                 console.log(err)
             })
     }
+
+    const usernameOnClick = (e, id) => {
+        e.stopPropagation()
+        setUserId(id)
+        setRecipeId("")
+    }
     
     return (
         <div className='recipe-page'>
@@ -37,7 +43,7 @@ const ViewRecipe = (props) => {
                     <UpdateRecipe recipeId={recipeId} setEditing={setEditing} token={token}/>:
                     <div>
                         <h1>{recipe.title}</h1>
-                        <h2>Posted By: {user.first_name} {user.last_name} (@{user.username})</h2>
+                        <h2>Posted By: {user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></h2>
                         <p>Description: {recipe.description}</p>
                         <p>Ingredients: {recipe.ingredients}</p>
                         <p>Directions: {recipe.directions}</p>

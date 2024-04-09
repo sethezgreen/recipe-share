@@ -49,7 +49,7 @@ const Main = (props) => {
                     <div className='content-header-container'>
                         <button onClick={()=> setRecipeId("")} className='content-header'>Back to Feed</button>
                     </div>
-                    <ViewRecipe recipeId={recipeId} token={token} tokenId={tokenId} setRecipeId={setRecipeId}/>
+                    <ViewRecipe recipeId={recipeId} token={token} tokenId={tokenId} setRecipeId={setRecipeId} setUserId={setUserId}/>
                 </div>:
                 userId?
                 <div className='content-div'>

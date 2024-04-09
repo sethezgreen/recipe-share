@@ -54,7 +54,7 @@ const UpdateRecipe = (props) => {
     }
     
     return (
-        <div>
+        <div className='recipe-form'>
             <button onClick={() => setEditing(false)} type='button'>Back to {title}</button>
             <h1>Update {title}</h1>
             <Form onSubmit={submitHandler} data-bs-theme="dark">

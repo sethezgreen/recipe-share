@@ -35,7 +35,7 @@ const RecipeForm = (props) => {
     }
 
     return (
-        <div>
+        <div className='recipe-form'>
             <h1>Post a New Recipe</h1>
             <Form onSubmit={submitHandler} data-bs-theme="dark">
                 <Form.Group>
