@@ -1,0 +1,45 @@
+.recipe-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 10%;
+}
+
+.recipe-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.recipe-title {
+    margin-left: 5%;
+}
+
+.recipe-times {
+    margin: 0 auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time-section {
+    text-align: center;
+    border: 2px solid white;
+    width: 33%;
+    padding: 0.5rem;
+}
+
+.sub-heading {
+    font-size: 1.5rem;
+}
+
+.recipe-list {
+    margin-left: 5%;
+}
+
+.recipe-btns {
+    display: flex;
+    justify-content: space-between;
+}

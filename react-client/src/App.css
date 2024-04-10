@@ -4,6 +4,10 @@
   max-height: 100vh;
 }
 
+button {
+  padding: 0.25rem;
+}
+
 @media (max-width: 768px) {
   .mobile-hidden {
     display: none;
