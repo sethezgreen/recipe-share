@@ -2,7 +2,7 @@
     margin: 0 auto;
     width: 80%;
     min-height: 100vh;
-    padding: 0 10px;
+    padding: 0 1rem;
     display: flex;
     flex-direction: column;
     background-color: var(--primary);
@@ -12,7 +12,7 @@
 
 #border {
     background-color: var(--primary);
-    height: 10px;
+    height: 1rem;
     z-index: 1;
     position: sticky;
     top: 0;
@@ -22,7 +22,6 @@
     display: flex;
     justify-content: space-between;
     height: 100%;
-    /* z-index: 0; */
 }
 
 .content-div {
@@ -42,9 +41,10 @@
     align-items: center;
     width: 100%;
     height: 55px;
+    margin-bottom: 0.5rem;
     position: sticky;
     position: -webkit-sticky;
-    top: 10px;
+    top: 1rem;
     background-color: var(--primary);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -55,7 +55,7 @@
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 55px;
+    height: 100%;
     background-color: grey;
     border-radius: 5px;
 }
