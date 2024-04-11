@@ -3,19 +3,19 @@ import { useState } from 'react'
 const useToken = () => {
     
     function getToken() {
-        const userToken = localStorage.getItem('token')
+        const userToken = sessionStorage.getItem('token')
         return userToken && userToken
     }
 
     const [token, setToken] = useState(getToken())
 
     function saveToken(userToken) {
-        localStorage.setItem('token', userToken)
+        sessionStorage.setItem('token', userToken)
         setToken(userToken)
     }
 
     function removeToken() {
-        localStorage.removeItem("token")
+        sessionStorage.removeItem("token")
         setToken("")
     }
 
