@@ -12,7 +12,7 @@ const SideNav = (props) => {
                 <div>
                     <p className='accent font-larger font-weight'>@{loggedUser.username}</p>
                     <p className='blue-hover pointer-hover' onClick={() => setUserId(loggedUser.id)}><u>My Recipes</u></p>
-                    <p className='green-hover pointer-hover'><u>Bookmarked Recipes</u></p>
+                    <p className='blue-hover pointer-hover'><u>Bookmarked Recipes</u></p>
                     <p>Following:</p>
                     {
                         loggedUser.followed_user?
