@@ -53,10 +53,10 @@ const Main = (props) => {
                 </div>:
                 userId?
                 <div className='content-div'>
-                    <div className='content-header-container'>
-                        <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
-                    </div>
-                    <ViewUser id={userId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
+                    {/* <div className='content-header-container'>
+                        
+                    </div> */}
+                    <ViewUser id={userId} setUserId={setUserId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
                 </div>:
                 <div className='content-div'>
                     <div className='content-header-container'>

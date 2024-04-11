@@ -1,0 +1,13 @@
+.profile-header-container {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 1rem;
+    background-color: var(--primary);
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+}
