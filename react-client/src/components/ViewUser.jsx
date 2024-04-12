@@ -5,11 +5,9 @@ import '../css/viewuser.css'
 import Feed from './Feed'
 
 const ViewUser = (props) => {
-    const {id, setUserId, setRecipeId, tokenId, token} = props
+    const {id, setUserId, setRecipeId, tokenId, token, followedUsers, setFollowedUsers} = props
     const [user, setUser] = useState({})
     const [recipes, setRecipes] = useState([])
-
-    console.log(`token from viewUser ${token}`)
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/users/${id}`)
@@ -24,11 +22,14 @@ const ViewUser = (props) => {
         axios.post(`http://localhost:5000/api/users/follow/${user.id}`, "", {headers: {"Authorization": `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
+                console.log(`followed users before new user: ${followedUsers}`)
+                setFollowedUsers(...followedUsers, res.data)
             })
             .catch((err) => {
                 console.log(err)
             })
     }
+    console.log(`followed users after new user: ${followedUsers}`)
     
     return (
         <>

@@ -75,10 +75,6 @@ class User(BaseModel):
             FROM users
             LEFT JOIN recipes
             ON recipes.user_id = %(id)s
-            LEFT JOIN user_has_followed_users
-            ON user_has_followed_users.user_id = %(id)s
-            LEFT JOIN users AS followed_users
-            ON followed_users.id = followed_user_id
             WHERE users.id = %(id)s
             ;"""
         results = connectToMySQL(cls.db).query_db(query, data)

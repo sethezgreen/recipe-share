@@ -46,7 +46,6 @@ def get_user_with_followed_users(id):
 @jwt_required()
 def follow_user(id):
     token_from_request = request.headers['Authorization']
-    print(f"token from follow request headers {token_from_request}")
     followed_user = user.User.follow_user(token_from_request, id)
     return followed_user, 201
 

@@ -3,12 +3,11 @@ import '../css/sidenav.css'
 import LogoutButton from './LogoutButton'
 
 const SideNav = (props) => {
-    const { token, toggleModal, logoutCallback, loggedUser, setUserId } = props
-    const [followedUsers, setFollowedUsers] = useState([])
+    const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers } = props
     
-    useEffect(() => {
-        setFollowedUsers(loggedUser.followed_users)
-    }, [followedUsers])
+    // useEffect(() => {
+    //     setFollowedUsers(loggedUser.followed_users)
+    // }, [followedUsers])
 
     return (
         <div className='side-nav mobile-hidden'>
