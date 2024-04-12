@@ -108,15 +108,6 @@ class User(BaseModel):
                     'user_id': result['user_id']
                 }
                 this_user['recipes'].append(one_recipe)
-            # if result['followed_users.id']:
-            #     one_followed_user = {
-            #         'id': result['followed_users.id'],
-            #         'username': result['followed_users.username'],
-            #         'firstName': result['followed_users.first_name'],
-            #         'lastName': result['followed_users.last_name'],
-            #         'email': result['followed_users.email']
-            #     }
-            #     this_user['followed_users'].append(one_followed_user)
         return this_user
     
 
@@ -131,11 +122,30 @@ class User(BaseModel):
             ON user_has_followed_users.user_id = %(id)s
             LEFT JOIN users AS followed_users
             ON followed_users.id = followed_user_id
-            LEFT JOIN recipes
-            ON recipes.user_id = %(id)s
             WHERE users.id = %(id)s
             ;"""
-        return connectToMySQL(cls.db).query_db(query, data)
+        results = connectToMySQL(cls.db).query_db(query, data)
+        result = results[0]
+        this_user = {
+            'id': result['id'],
+            'username': result['username'],
+            'firstName': result['first_name'],
+            'lastName': result['last_name'],
+            'email': result['email'],
+            'recipes': [],
+            'followed_users': []
+        }
+        for result in results:
+            if result['followed_users.id']:
+                one_followed_user = {
+                    'id': result['followed_users.id'],
+                    'username': result['followed_users.username'],
+                    'firstName': result['followed_users.first_name'],
+                    'lastName': result['followed_users.last_name'],
+                    'email': result['followed_users.email']
+                }
+                this_user['followed_users'].append(one_followed_user)
+        return this_user
     
     @classmethod
     def get_user_by_email(cls, email):
@@ -191,8 +201,8 @@ class User(BaseModel):
         this_user = cls.get_user_by_email(data['email'])
         if this_user:
             if bcrypt.check_password_hash(this_user['password'], data['password']):
-                this_user_with_recipes = cls.get_user_with_recipes(this_user['id'])
-                access_token = create_access_token(identity=this_user_with_recipes)
+                this_user_with_followed_users = cls.get_user_with_followed_users(this_user['id'])
+                access_token = create_access_token(identity=this_user_with_followed_users)
                 return {'access_token': access_token, 'hasErrors': False}
         return {'error': 'Invalid login information.', 'hasErrors': True}
     
