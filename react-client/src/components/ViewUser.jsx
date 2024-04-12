@@ -8,6 +8,8 @@ const ViewUser = (props) => {
     const {id, setUserId, setRecipeId, tokenId, token} = props
     const [user, setUser] = useState({})
     const [recipes, setRecipes] = useState([])
+
+    console.log(`token from viewUser ${token}`)
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/users/${id}`)
@@ -19,7 +21,7 @@ const ViewUser = (props) => {
     },[])
 
     const followOnClick = () => {
-        axios.post(`http://localhost:5000/api/users/follow/${user.id}`, {headers: {Authorization: `Bearer ${token}`}})
+        axios.post(`http://localhost:5000/api/users/follow/${user.id}`, "", {headers: {"Authorization": `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
             })

@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/sidenav.css'
 import LogoutButton from './LogoutButton'
 
 const SideNav = (props) => {
     const { token, toggleModal, logoutCallback, loggedUser, setUserId } = props
+    const [followedUsers, setFollowedUsers] = useState([])
+    
+    useEffect(() => {
+        setFollowedUsers(loggedUser.followed_users)
+    }, [followedUsers])
 
     return (
         <div className='side-nav mobile-hidden'>
@@ -15,9 +20,9 @@ const SideNav = (props) => {
                     <p className='blue-hover pointer-hover'><u>Bookmarked Recipes</u></p>
                     <p>Following:</p>
                     {
-                        loggedUser.followed_user?
-                        loggedUser.followed_users.map((followed_user) => (
-                            <p key={followed_user.id} className='blue-hover pointer-hover' onClick={() => setUserId(followed_user.id)}>{followed_user.username}</p>
+                        followedUsers?
+                        followedUsers.map((followed_user) => (
+                            <p key={followed_user.id} className='blue-hover pointer-hover' onClick={() => setUserId(followed_user.id)}>@{followed_user.username}</p>
                         )):
                         <p>Follow someone to add</p>
                     }

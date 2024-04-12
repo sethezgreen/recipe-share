@@ -179,6 +179,25 @@ class User(BaseModel):
             return True
         return False
     
+    @classmethod
+    def get_user_by_id(cls, id):
+        data = {'id': id}
+        query ="""
+                SELECT *
+                FROM users
+                WHERE id = %(id)s
+            ;"""
+        result = connectToMySQL(cls.db).query_db(query, data)
+        if result:
+            this_user = {
+                'id': result[0]['id'],
+                'username': result[0]['username'],
+                'email': result[0]['email'],
+                'password': result[0]['password']
+            }
+            return this_user
+        return "error"
+    
     # Follow another user
     @classmethod
     def follow_user(cls, token_from_request, id):
@@ -192,7 +211,8 @@ class User(BaseModel):
             VALUES (%(user_id)s, %(followed_user_id)s)
             ;"""
         connectToMySQL(cls.db).query_db(query, data)
-        pass
+        followed_user = cls.get_user_by_id(id)
+        return followed_user
     
     # JWT Login/Logout
 
