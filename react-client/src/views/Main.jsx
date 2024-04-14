@@ -27,6 +27,8 @@ const Main = (props) => {
     const logoutCallback = () => {
         setToken("")
         setTokenId("")
+        setRecipeId("")
+        setUserId("")
         setLoggedUser({})
         alert("logout successful")
     }
