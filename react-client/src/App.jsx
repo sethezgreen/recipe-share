@@ -24,11 +24,11 @@ function App() {
   },[token])
 
   return (
-    <div className="app">
-            <Routes>
-              <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>} />
-            </Routes>
-    </div>
+    <>
+      <Routes>
+        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>} />
+      </Routes>
+    </>
   )
 }
 
