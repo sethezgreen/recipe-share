@@ -10,19 +10,23 @@ function App() {
   const { token, setToken } = useToken("")
   const [tokenId, setTokenId] = useState("")
   const [loggedUser, setLoggedUser] = useState({})
+  const [followedUsers, setFollowedUsers] = useState([])
 
   useEffect(() => {
     if (token) {
       const decoded = jwtDecode(token)
       setTokenId(decoded.sub.id)
       setLoggedUser(decoded.sub)
+      if (decoded.sub.followedUsers) {
+        setFollowedUsers(decoded.sub.followed_users)
+      }
     }
   },[token])
 
   return (
     <div className="app">
             <Routes>
-              <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>} />
+              <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>} />
             </Routes>
     </div>
   )

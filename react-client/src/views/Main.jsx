@@ -8,7 +8,7 @@ import RecipeForm from '../components/RecipeForm'
 import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
-    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser} = props
+    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, followedUsers, setFollowedUsers} = props
     const [recipeId, setRecipeId] = useState("")
     const [userId, setUserId] = useState("")
     const [modal, setModal] = useState(false)
@@ -35,7 +35,7 @@ const Main = (props) => {
         <div className='main-view'>
             <div id='border'></div>
             <div className='main-content'>
-            <SideNav token={token} toggleModal={toggleModal} logoutCallback={logoutCallback} loggedUser={loggedUser} setUserId={setUserId}/>
+            <SideNav token={token} toggleModal={toggleModal} logoutCallback={logoutCallback} loggedUser={loggedUser} setUserId={setUserId} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>
             {
                 creating?
                 <div className='content-div'>
@@ -56,7 +56,7 @@ const Main = (props) => {
                     {/* <div className='content-header-container'>
                         
                     </div> */}
-                    <ViewUser id={userId} setUserId={setUserId} setRecipeId={setRecipeId} tokenId={tokenId} token={token}/>
+                    <ViewUser id={userId} setUserId={setUserId} setRecipeId={setRecipeId} tokenId={tokenId} token={token} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>
                 </div>:
                 <div className='content-div'>
                     <div className='content-header-container'>
