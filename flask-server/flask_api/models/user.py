@@ -203,13 +203,29 @@ class User(BaseModel):
             'followed_user_id': id
         }
         query = """
-            INSERT INTO user_has_followed_users (user_id, followed_user_id)
-            VALUES (%(user_id)s, %(followed_user_id)s)
+                INSERT INTO user_has_followed_users (user_id, followed_user_id)
+                VALUES (%(user_id)s, %(followed_user_id)s)
             ;"""
         connectToMySQL(cls.db).query_db(query, data)
         followed_user = cls.get_user_by_id(id)
         return followed_user
     
+    # Delete Follow
+    
+    @classmethod
+    def unfollow_user(cls, followed_user_id, token_from_request):
+        userId = cls.decode_request_token(token_from_request)
+        data = {
+            "user_id": userId,
+            "followed_user_id": followed_user_id
+        }
+        query = """
+                DELETE FROM user_has_followed_users
+                WHERE user_id = %(user_id)s AND followed_user_id = %(followed_user_id)s
+            ;"""
+        connectToMySQL(cls.db).query_db(query, data)
+        return {"hasErrors": False}
+
     # JWT Login/Logout
 
     @classmethod

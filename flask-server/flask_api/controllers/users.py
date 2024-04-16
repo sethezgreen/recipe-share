@@ -49,6 +49,17 @@ def follow_user(id):
     followed_user = user.User.follow_user(token_from_request, id)
     return followed_user, 201
 
+# UnFollow User Route
+
+@api.route('/api/users/unfollow/<int:followed_user_id>', methods = ["DELETE"])
+@jwt_required()
+def unfollow_user(followed_user_id):
+    token_from_request = request.headers['Authorization']
+    response = user.User.unfollow_user(followed_user_id, token_from_request)
+    if response['hasErrors']:
+        return response['errors'], 500
+    return "delete successful", 204
+
 # Token Refresh
 
 @api.after_request

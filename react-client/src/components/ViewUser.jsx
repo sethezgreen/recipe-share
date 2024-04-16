@@ -30,6 +30,17 @@ const ViewUser = (props) => {
             })
     }
     console.log(`followed users after new user: ${followedUsers}`)
+
+    const unfollowOnClick = () => {
+        axios.delete(`http://localhost:5000/api/users/unfollow/${user.id}`, {headers: {"Authorization": `Bearer ${token}`}})
+        .then((res) => {
+            console.log(res)
+            // update followedUsers list
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
     
     return (
         <>
@@ -43,7 +54,14 @@ const ViewUser = (props) => {
                 <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
                 <div className='profile-header'>
                     <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
-                    <button onClick={() => followOnClick()}>Follow</button>
+                    // fix logic for displaying unfollow button
+                    {
+                        token?
+                            (user.username in followedUsers)?
+                            <button onClick={() => unfollowOnClick()}>Unfollow</button>:
+                            <button onClick={() => followOnClick()}>Follow</button>:
+                        null
+                    }
                 </div>
                 <p>Recipes:</p>
             </div>
