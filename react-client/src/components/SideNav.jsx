@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import '../css/sidenav.css'
 import LogoutButton from './LogoutButton'
+import axios from 'axios'
 
 const SideNav = (props) => {
     const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers } = props
     
     useEffect(() => {
-        // setFollowedUsers(loggedUser.followed_users)
-        // setFollowedUsers(sessionStorage.getItem('followedUsers'))
-    }, [followedUsers])
+        // axios request to setFollowedUsers list
+        axios.get(`http://localhost:5000/api/users/${sessionStorage.getItem('tokenId')}/followed_users`)
+            .then((res) => {
+                setFollowedUsers(res.data.followed_users)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }, [token])
 
     return (
         <div className='side-nav mobile-hidden'>

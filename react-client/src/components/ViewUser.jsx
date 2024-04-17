@@ -21,8 +21,6 @@ const ViewUser = (props) => {
     const followOnClick = () => {
         axios.post(`http://localhost:5000/api/users/follow/${user.id}`, "", {headers: {"Authorization": `Bearer ${token}`}})
             .then((res) => {
-                console.log(res)
-                console.log(`followed users before new user: ${followedUsers}`)
                 setFollowedUsers([...followedUsers, res.data])
             })
             .catch((err) => {
@@ -33,8 +31,8 @@ const ViewUser = (props) => {
     const unfollowOnClick = () => {
         axios.delete(`http://localhost:5000/api/users/unfollow/${user.id}`, {headers: {"Authorization": `Bearer ${token}`}})
         .then((res) => {
-            console.log(res)
             // update followedUsers list
+            setFollowedUsers(followedUsers.filter((followedUser) => followedUser.id != user.id))
         })
         .catch((err) => {
             console.log(err)
@@ -56,7 +54,8 @@ const ViewUser = (props) => {
                     {/* fix logic for displaying unfollow button */}
                     {
                         token?
-                            (user.username in followedUsers)?
+                            // (user.id in followedUsers.map((followedUser) => followedUser.id))?
+                            (followedUsers.filter((followedUser) => followedUser.id != user.id))?
                             <button onClick={() => unfollowOnClick()}>Unfollow</button>:
                             <button onClick={() => followOnClick()}>Follow</button>:
                         null

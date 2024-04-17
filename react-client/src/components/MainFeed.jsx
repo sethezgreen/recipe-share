@@ -11,8 +11,6 @@ const MainFeed = (props) => {
         axios.get('http://localhost:5000/api/recipes')
             .then((res) => {
                 setRecipes(res.data)
-                console.log("recipe res")
-                console.log(res)
             })
             .catch(err => console.log(err))
     }, [token])
