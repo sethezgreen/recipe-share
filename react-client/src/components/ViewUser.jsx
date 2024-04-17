@@ -23,13 +23,12 @@ const ViewUser = (props) => {
             .then((res) => {
                 console.log(res)
                 console.log(`followed users before new user: ${followedUsers}`)
-                setFollowedUsers(...followedUsers, res.data)
+                setFollowedUsers([...followedUsers, res.data])
             })
             .catch((err) => {
                 console.log(err)
             })
     }
-    console.log(`followed users after new user: ${followedUsers}`)
 
     const unfollowOnClick = () => {
         axios.delete(`http://localhost:5000/api/users/unfollow/${user.id}`, {headers: {"Authorization": `Bearer ${token}`}})
@@ -54,7 +53,7 @@ const ViewUser = (props) => {
                 <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
                 <div className='profile-header'>
                     <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
-                    // fix logic for displaying unfollow button
+                    {/* fix logic for displaying unfollow button */}
                     {
                         token?
                             (user.username in followedUsers)?

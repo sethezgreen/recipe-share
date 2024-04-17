@@ -8,11 +8,12 @@ import RecipeForm from '../components/RecipeForm'
 import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
-    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, followedUsers, setFollowedUsers} = props
+    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser} = props
     const [recipeId, setRecipeId] = useState("")
     const [userId, setUserId] = useState("")
     const [modal, setModal] = useState(false)
     const [creating, setCreating] = useState(false)
+    const [followedUsers, setFollowedUsers] = useState([])
 
     const toggleModal = () => {
         setModal(!modal)
@@ -30,6 +31,7 @@ const Main = (props) => {
         setRecipeId("")
         setUserId("")
         setLoggedUser({})
+        setFollowedUsers([])
         alert("logout successful")
     }
 

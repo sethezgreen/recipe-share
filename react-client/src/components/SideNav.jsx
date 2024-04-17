@@ -5,9 +5,10 @@ import LogoutButton from './LogoutButton'
 const SideNav = (props) => {
     const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers } = props
     
-    // useEffect(() => {
-    //     setFollowedUsers(loggedUser.followed_users)
-    // }, [followedUsers])
+    useEffect(() => {
+        // setFollowedUsers(loggedUser.followed_users)
+        // setFollowedUsers(sessionStorage.getItem('followedUsers'))
+    }, [followedUsers])
 
     return (
         <div className='side-nav mobile-hidden'>
@@ -19,7 +20,7 @@ const SideNav = (props) => {
                     <p className='blue-hover pointer-hover'><u>Bookmarked Recipes</u></p>
                     <p>Following:</p>
                     {
-                        followedUsers?
+                        followedUsers[0]?
                         followedUsers.map((followed_user) => (
                             <p key={followed_user.id} className='blue-hover pointer-hover' onClick={() => setUserId(followed_user.id)}>@{followed_user.username}</p>
                         )):
