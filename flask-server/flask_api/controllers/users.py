@@ -38,7 +38,7 @@ def read_user_with_recipes(id):
 @api.route('/api/users/<int:id>/followed_users')
 def get_user_with_followed_users(id):
     response = user.User.get_user_with_followed_users(id)
-    return response
+    return response, 201
 
 # Follow User Route
 
