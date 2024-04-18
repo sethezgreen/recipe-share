@@ -51,11 +51,9 @@ const ViewUser = (props) => {
                 <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
                 <div className='profile-header'>
                     <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
-                    {/* fix logic for displaying unfollow button */}
                     {
                         token?
-                            // (user.id in followedUsers.map((followedUser) => followedUser.id))?
-                            (followedUsers.filter((followedUser) => followedUser.id != user.id))?
+                            (followedUsers.filter((followedUser) => followedUser.id == id)[0])?
                             <button onClick={() => unfollowOnClick()}>Unfollow</button>:
                             <button onClick={() => followOnClick()}>Follow</button>:
                         null
