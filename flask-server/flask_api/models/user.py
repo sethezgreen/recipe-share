@@ -27,8 +27,8 @@ class User(BaseModel):
     def decode_request_token(cls, access_token):
         bearer, _, token = access_token.partition(' ')
         token_decoded = decode_token(token)
-        userId = token_decoded['sub']['id']
-        return userId
+        user_id = token_decoded['sub']['id']
+        return user_id
 
     # Create Users
 
@@ -197,9 +197,9 @@ class User(BaseModel):
     # Follow another user
     @classmethod
     def follow_user(cls, token_from_request, id):
-        userId = cls.decode_request_token(token_from_request)
+        user_id = cls.decode_request_token(token_from_request)
         data = {
-            'user_id': userId,
+            'user_id': user_id,
             'followed_user_id': id
         }
         query = """
@@ -214,9 +214,9 @@ class User(BaseModel):
     
     @classmethod
     def unfollow_user(cls, followed_user_id, token_from_request):
-        userId = cls.decode_request_token(token_from_request)
+        user_id = cls.decode_request_token(token_from_request)
         data = {
-            "user_id": userId,
+            "user_id": user_id,
             "followed_user_id": followed_user_id
         }
         query = """
@@ -225,6 +225,23 @@ class User(BaseModel):
             ;"""
         connectToMySQL(cls.db).query_db(query, data)
         return {"hasErrors": False}
+    
+    # Bookmark Recipe
+
+    @classmethod
+    def bookmark_recipe(cls, recipe_id, token_from_request):
+        user_id = cls.decode_request_token(token_from_request)
+        data = {
+            "user_id": user_id,
+            "recipe_id": recipe_id
+        }
+        query = """
+                INSERT INTO bookmarked_recipes (user_id, recipe_id)
+                VALUES (%(user_id)s, %(recipe_id)s)
+            ;"""
+        connectToMySQL(cls.db).query_db(query, data)
+        # getting table does not exist sql error
+        return True
 
     # JWT Login/Logout
 

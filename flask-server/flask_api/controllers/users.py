@@ -60,6 +60,15 @@ def unfollow_user(followed_user_id):
         return response['errors'], 500
     return "delete successful", 204
 
+# Bookmark Recipe Route
+
+@api.route('/api/users/bookmark/recipe/<int:recipe_id>', methods=["POST"])
+@jwt_required()
+def bookmark_recipe(recipe_id):
+    token_from_request = request.headers['Authorization']
+    user.User.bookmark_recipe(recipe_id, token_from_request)
+    return "new bookmark", 201
+
 # Token Refresh
 
 @api.after_request
