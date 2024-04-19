@@ -36,6 +36,16 @@ const ViewRecipe = (props) => {
         setUserId(id)
         setRecipeId("")
     }
+
+    const bookmarkOnClick = () => {
+        axios.post(`http://localhost:5000/api/users/bookmark/recipe/${recipeId}`, "", {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     
     return (
         <div className='recipe-page'>
@@ -45,7 +55,10 @@ const ViewRecipe = (props) => {
                     <>
                         <header className='recipe-header'>
                             <h1 className='recipe-title'>{recipe.title}</h1>
-                            <p>{user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></p>
+                            <div>
+                                <p>{user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></p>
+                                <button onClick={() => bookmarkOnClick()}>Bookmark</button>
+                            </div>
                         </header>
                         <div className='recipe-times'>
                             <div className='time-section'>
