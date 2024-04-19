@@ -240,6 +240,20 @@ class User(BaseModel):
         connectToMySQL(cls.db).query_db(query, data)
         return True
     
+    # Get User's Bookmarks
+    @classmethod
+    def get_users_bookmarks(cls, token_from_request):
+        user_id = cls.decode_request_token(token_from_request)
+        data = {"user_id": user_id}
+        query = """
+                SELECT *
+                FROM bookmarked_recipes
+                LEFT JOIN recipes
+                ON recipes.id = bookmarked_recipes.recipe_id
+                WHERE bookmarked_recipes.user_id = %(user_id)s
+            ;"""
+        return connectToMySQL(cls.db).query_db(query, data)
+
     # Delete Bookmark
     @classmethod
     def delete_bookmark(cls, recipe_id, token_from_request):

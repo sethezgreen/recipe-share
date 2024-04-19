@@ -69,6 +69,15 @@ def bookmark_recipe(recipe_id):
     user.User.bookmark_recipe(recipe_id, token_from_request)
     return "new bookmark", 201
 
+# Read User's Bookmarks
+
+@api.route('/api/users/bookmarks')
+@jwt_required()
+def read_users_bookmarks():
+    token_from_request = request.headers['Authorization']
+    results = user.User.get_users_bookmarks(token_from_request)
+    return results, 201
+
 # Delete Bookmark Route
 
 @api.route('/api/users/bookmark/delete/<int:recipe_id>', methods=["DELETE"])
