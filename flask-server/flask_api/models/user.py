@@ -211,7 +211,6 @@ class User(BaseModel):
         return followed_user
     
     # Delete Follow
-    
     @classmethod
     def unfollow_user(cls, followed_user_id, token_from_request):
         user_id = cls.decode_request_token(token_from_request)
@@ -227,7 +226,6 @@ class User(BaseModel):
         return {"hasErrors": False}
     
     # Bookmark Recipe
-
     @classmethod
     def bookmark_recipe(cls, recipe_id, token_from_request):
         user_id = cls.decode_request_token(token_from_request)
@@ -240,7 +238,21 @@ class User(BaseModel):
                 VALUES (%(user_id)s, %(recipe_id)s)
             ;"""
         connectToMySQL(cls.db).query_db(query, data)
-        # getting table does not exist sql error
+        return True
+    
+    # Delete Bookmark
+    @classmethod
+    def delete_bookmark(cls, recipe_id, token_from_request):
+        user_id = cls.decode_request_token(token_from_request)
+        data = {
+            "user_id": user_id,
+            "recipe_id": recipe_id
+        }
+        query = """
+                DELETE FROM bookmarked_recipes
+                WHERE user_id = %(user_id)s AND recipe_id = %(recipe_id)s
+            ;"""
+        connectToMySQL(cls.db).query_db(query, data)
         return True
 
     # JWT Login/Logout
