@@ -5,6 +5,8 @@ import { Route, Routes } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import Main from './views/Main'
 import useToken from './components/useToken'
+import MainFeed from './components/MainFeed';
+import ViewUser from './components/ViewUser';
 
 function App() {
   const { token, setToken } = useToken("")
@@ -23,7 +25,10 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />} />
+        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />}>
+          <Route path="feed" element={<MainFeed />} />
+          <Route path="user/:user_id" element={<ViewUser/>}/>
+        </Route>
       </Routes>
     </>
   )
