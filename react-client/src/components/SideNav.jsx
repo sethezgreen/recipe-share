@@ -4,7 +4,7 @@ import LogoutButton from './LogoutButton'
 import axios from 'axios'
 
 const SideNav = (props) => {
-    const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers } = props
+    const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers, setViewingBookmarks } = props
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/users/${sessionStorage.getItem('tokenId')}/followed_users`)
@@ -23,7 +23,7 @@ const SideNav = (props) => {
                 <div>
                     <p className='accent font-larger font-weight'>@{loggedUser.username}</p>
                     <p className='blue-hover pointer-hover' onClick={() => setUserId(loggedUser.id)}><u>My Recipes</u></p>
-                    <p className='blue-hover pointer-hover'><u>Bookmarked Recipes</u></p>
+                    <p className='blue-hover pointer-hover' onClick={() => setViewingBookmarks(true)}><u>Bookmarked Recipes</u></p>
                     <p>Following:</p>
                     {
                         followedUsers[0]?
