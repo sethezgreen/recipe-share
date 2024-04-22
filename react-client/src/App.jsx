@@ -9,6 +9,7 @@ import MainFeed from './components/MainFeed';
 import ViewUser from './components/ViewUser';
 import RecipeForm from './components/RecipeForm'
 import NotFound from './views/NotFound';
+import Bookmarks from './components/Bookmarks';
 
 function App() {
   const { token, setToken } = useToken("")
@@ -33,10 +34,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal}/>}>
-          <Route path="" element={<MainFeed token={token} toggleModal={toggleModal}/>} />
-          <Route path="user/:userId" element={<ViewUser tokenId={tokenId} />}/>
+        <Route exact path='/' element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal}/>}>
+          <Route path='' element={<MainFeed token={token} toggleModal={toggleModal}/>} />
+          <Route path='user/:userId' element={<ViewUser tokenId={tokenId} />}/>
           <Route path='recipe/new' element={<RecipeForm token={token} />} />
+          <Route path='bookmarks' element={<Bookmarks token={token}/>} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
