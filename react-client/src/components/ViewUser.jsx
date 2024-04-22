@@ -19,7 +19,7 @@ const ViewUser = (props) => {
                 setRecipes(res.data.recipes)
             })
             .catch((err) => console.log(err))
-    },[])
+    },[userId])
 
     const followOnClick = () => {
         axios.post(`http://localhost:5000/api/users/follow/${user.id}`, "", {headers: {"Authorization": `Bearer ${token}`}})
