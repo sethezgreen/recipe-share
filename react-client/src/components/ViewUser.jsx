@@ -7,12 +7,10 @@ import { useParams } from 'react-router-dom'
 import BackButton from './BackButton'
 
 const ViewUser = (props) => {
-    const {setUserId, setRecipeId, tokenId, token, followedUsers, setFollowedUsers} = props
+    const { tokenId, token, followedUsers, setFollowedUsers} = props
     const {userId} = useParams()
     const [user, setUser] = useState({})
     const [recipes, setRecipes] = useState([])
-
-    console.log(`id from useParams: ${userId}`)
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/users/${userId}`)
@@ -67,7 +65,7 @@ const ViewUser = (props) => {
                 <p>Recipes:</p>
             </div>
         }
-            <Feed recipes={recipes} setRecipeId={setRecipeId}/>
+            <Feed recipes={recipes} />
         </>
     )
 }

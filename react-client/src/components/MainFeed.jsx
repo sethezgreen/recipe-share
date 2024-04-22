@@ -5,7 +5,7 @@ import Feed from './Feed'
 import { useNavigate } from 'react-router-dom'
 
 const MainFeed = (props) => {
-    const {token, setRecipeId, setUserId, toggleModal} = props
+    const {token, setRecipeId, toggleModal} = props
     const [recipes, setRecipes] = useState([])
     const navigate = useNavigate()
 
@@ -19,7 +19,7 @@ const MainFeed = (props) => {
 
     const usernameOnClick = (e, id) => {
         e.stopPropagation()
-        setUserId(id)
+        navigate(`/user/${id}`)
     }
 
     return (

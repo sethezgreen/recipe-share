@@ -2,13 +2,13 @@ import React from 'react'
 import RecipeCard from './RecipeCard'
 
 const Feed = (props) => {
-    const { recipes, setRecipeId, usernameOnClick } = props
+    const { recipes, usernameOnClick } = props
 
     return (
         <>
             {
                 recipes.map((recipe) => (
-                    <RecipeCard key={recipe.id} recipe={recipe} setRecipeId={setRecipeId} usernameOnClick={usernameOnClick}/>
+                    <RecipeCard key={recipe.id} recipe={recipe} usernameOnClick={usernameOnClick}/>
                 ))
             }
         </>
