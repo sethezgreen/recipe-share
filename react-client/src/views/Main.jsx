@@ -20,13 +20,15 @@ const Main = (props) => {
     const [bookmarks, setBookmarks] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:5000/api/users/bookmarks', {headers: {Authorization: `Bearer ${token}`}})
-            .then((res) => {
-                console.log(res)
-                setBookmarks(res.data)
-            })
-            .catch((err) => console.log(err))
-    },[])
+        if (token) {
+            axios.get('http://localhost:5000/api/users/bookmarks', {headers: {Authorization: `Bearer ${token}`}})
+                .then((res) => {
+                    console.log(res)
+                    setBookmarks(res.data)
+                })
+                .catch((err) => console.log(err))
+        }
+    },[token])
 
     const toggleModal = () => {
         setModal(!modal)
@@ -79,7 +81,7 @@ const Main = (props) => {
                 <div className='content-div'>
                     <div className='content-header-container'>
                         <button onClick={()=> setViewingBookmarks(false)} className='content-header'>Back to Feed</button>
-                        <Bookmarks />
+                        <Bookmarks recipes={bookmarks}/>
                     </div>
                 </div>:
                 <div className='content-div'>
