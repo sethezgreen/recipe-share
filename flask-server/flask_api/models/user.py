@@ -252,7 +252,10 @@ class User(BaseModel):
                 ON recipes.id = bookmarked_recipes.recipe_id
                 WHERE bookmarked_recipes.user_id = %(user_id)s
             ;"""
-        return connectToMySQL(cls.db).query_db(query, data)
+        results = connectToMySQL(cls.db).query_db(query, data)
+        if results:
+            return results
+        return False
 
     # Delete Bookmark
     @classmethod

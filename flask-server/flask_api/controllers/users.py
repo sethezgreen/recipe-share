@@ -76,7 +76,9 @@ def bookmark_recipe(recipe_id):
 def read_users_bookmarks():
     token_from_request = request.headers['Authorization']
     results = user.User.get_users_bookmarks(token_from_request)
-    return results, 201
+    if results:
+        return results, 201
+    return "no bookmarks found", 500
 
 # Delete Bookmark Route
 
