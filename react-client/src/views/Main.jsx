@@ -6,20 +6,20 @@ import SideNav from '../components/SideNav'
 import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
-    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser} = props
-    const [modal, setModal] = useState(false)
+    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, modal, setModal} = props
+    // const [modal, setModal] = useState(false)
     const [followedUsers, setFollowedUsers] = useState([])
 
-    useEffect(() => {
-        if (token) {
-            axios.get('http://localhost:5000/api/users/bookmarks', {headers: {Authorization: `Bearer ${token}`}})
-                .then((res) => {
-                    console.log(res)
-                    setBookmarks(res.data)
-                })
-                .catch((err) => console.log(err))
-        }
-    },[token])
+    // useEffect(() => {
+    //     if (token) {
+    //         axios.get('http://localhost:5000/api/users/bookmarks', {headers: {Authorization: `Bearer ${token}`}})
+    //             .then((res) => {
+    //                 console.log(res)
+    //                 setBookmarks(res.data)
+    //             })
+    //             .catch((err) => console.log(err))
+    //     }
+    // },[token])
 
     const toggleModal = () => {
         setModal(!modal)

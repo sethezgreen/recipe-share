@@ -8,6 +8,10 @@ button {
   padding: 0.25rem;
 }
 
+.color-secondary {
+  color: var(--secondary);
+}
+
 @media (max-width: 768px) {
   .mobile-hidden {
     display: none;

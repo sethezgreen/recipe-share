@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const RecipeCard = (props) => {
-    const { recipe, setRecipeId, usernameOnClick } = props;
+    const { recipe, setRecipeId } = props;
+    const navigate = useNavigate()
+
+    const usernameOnClick = (e) => {
+        e.stopPropagation()
+        navigate(`/user/${recipe.user_id}`)
+    }
 
     return (
     <div className='recipe-card' onClick={() => setRecipeId(recipe.id)}>
@@ -11,7 +18,7 @@ const RecipeCard = (props) => {
                 <h3 className='blue-hover'><u>{recipe.title}</u></h3>
                 {
                     usernameOnClick?
-                    <p>Posted By: <span className='blue-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>@{recipe.user.username}</span></p>:
+                    <p>Posted By: <span className='blue-hover' onClick={(e) => usernameOnClick(e)}>@{recipe.user.username}</span></p>:
                     null
                 }
             </div>

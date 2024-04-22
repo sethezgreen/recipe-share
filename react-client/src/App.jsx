@@ -7,11 +7,15 @@ import Main from './views/Main'
 import useToken from './components/useToken'
 import MainFeed from './components/MainFeed';
 import ViewUser from './components/ViewUser';
+import RecipeForm from './components/RecipeForm'
+import NotFound from './views/NotFound';
 
 function App() {
   const { token, setToken } = useToken("")
   const [tokenId, setTokenId] = useState("")
   const [loggedUser, setLoggedUser] = useState({})
+  const [modal, setModal] = useState(false)
+
 
   useEffect(() => {
     if (token) {
@@ -22,13 +26,19 @@ function App() {
     }
   },[token])
 
+  const toggleModal = () => {
+    setModal(!modal)
+}
+
   return (
     <>
       <Routes>
-        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} />}>
-          <Route path="feed" element={<MainFeed />} />
-          <Route path="user/:user_id" element={<ViewUser/>}/>
+        <Route exact path="/" element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal}/>}>
+          <Route path="" element={<MainFeed token={token} toggleModal={toggleModal}/>} />
+          <Route path="user/:userId" element={<ViewUser tokenId={tokenId} />}/>
+          <Route path='recipe/new' element={<RecipeForm token={token} />} />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )

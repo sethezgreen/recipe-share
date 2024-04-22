@@ -3,20 +3,25 @@ import axios from 'axios'
 import '../css/feed.css'
 import '../css/viewuser.css'
 import Feed from './Feed'
+import { useParams } from 'react-router-dom'
+import BackButton from './BackButton'
 
 const ViewUser = (props) => {
-    const {id, setUserId, setRecipeId, tokenId, token, followedUsers, setFollowedUsers} = props
+    const {setUserId, setRecipeId, tokenId, token, followedUsers, setFollowedUsers} = props
+    const {userId} = useParams()
     const [user, setUser] = useState({})
     const [recipes, setRecipes] = useState([])
+
+    console.log(`id from useParams: ${userId}`)
     
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/users/${id}`)
+        axios.get(`http://localhost:5000/api/users/${userId}`)
             .then((res) => {
                 setUser(res.data)
                 setRecipes(res.data.recipes)
             })
             .catch((err) => console.log(err))
-    },[id])
+    },[])
 
     const followOnClick = () => {
         axios.post(`http://localhost:5000/api/users/follow/${user.id}`, "", {headers: {"Authorization": `Bearer ${token}`}})
@@ -42,13 +47,13 @@ const ViewUser = (props) => {
     return (
         <>
         {
-            tokenId == id?
+            tokenId == userId?
             <div className="profile-header-container">
-                <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
+                <BackButton />
                 <h1>Your Recipes:</h1>
             </div>:
             <div className='profile-header-container'>
-                <button onClick={()=> setUserId("")} className='content-header'>Back to Feed</button>
+                <BackButton />
                 <div className='profile-header'>
                     <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
                     {
