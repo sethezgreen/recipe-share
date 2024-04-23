@@ -66,8 +66,8 @@ def unfollow_user(followed_user_id):
 @jwt_required()
 def bookmark_recipe(recipe_id):
     token_from_request = request.headers['Authorization']
-    user.User.bookmark_recipe(recipe_id, token_from_request)
-    return "new bookmark", 201
+    bookmarked_recipe = user.User.bookmark_recipe(recipe_id, token_from_request)
+    return bookmarked_recipe, 201
 
 # Read User's Bookmarks
 

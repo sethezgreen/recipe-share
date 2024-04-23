@@ -1,5 +1,6 @@
 from flask_api import api
 from flask_api.config.mysqlconnection import connectToMySQL
+from flask_api.models import recipe
 from flask import jsonify
 import re
 from flask_bcrypt import Bcrypt
@@ -238,7 +239,8 @@ class User(BaseModel):
                 VALUES (%(user_id)s, %(recipe_id)s)
             ;"""
         connectToMySQL(cls.db).query_db(query, data)
-        return True
+        bookmarked_recipe = recipe.Recipe.read_recipe_with_user(recipe_id)
+        return bookmarked_recipe
     
     # Get User's Bookmarks
     @classmethod
