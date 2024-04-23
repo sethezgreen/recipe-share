@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react'
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
-import Main from './views/Main'
-import useToken from './components/useToken'
+import './App.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Main from './views/Main';
+import useToken from './components/useToken';
 import MainFeed from './components/MainFeed';
 import ViewUser from './components/ViewUser';
-import RecipeForm from './components/RecipeForm'
+import RecipeForm from './components/RecipeForm';
 import NotFound from './views/NotFound';
 import Bookmarks from './components/Bookmarks';
+import ViewRecipe from './components/ViewRecipe';
+import UpdateRecipe from './components/UpdateRecipe';
 
 function App() {
   const { token, setToken } = useToken("")
@@ -34,11 +36,13 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path='/' element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal}/>}>
-          <Route path='' element={<MainFeed token={token} toggleModal={toggleModal}/>} />
+        <Route exact path='/' element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal} />}>
+          <Route path='' element={<MainFeed token={token} toggleModal={toggleModal} />}/>
           <Route path='user/:userId' element={<ViewUser tokenId={tokenId} />}/>
-          <Route path='recipe/new' element={<RecipeForm token={token} />} />
-          <Route path='bookmarks' element={<Bookmarks token={token}/>} />
+          <Route path='recipe/new' element={<RecipeForm token={token} />}/>
+          <Route path='bookmarks' element={<Bookmarks token={token} />}/>
+          <Route path='recipe/:recipeId' element={<ViewRecipe token={token} tokenId={tokenId} />}/>
+          <Route path='recipe/edit/:recipeId' element={<UpdateRecipe token={token} />}/>
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
