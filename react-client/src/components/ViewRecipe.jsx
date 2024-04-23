@@ -10,12 +10,20 @@ const ViewRecipe = (props) => {
     const {recipeId} = useParams()
     const [recipe, setRecipe] = useState({})
     const [user, setUser] = useState({})
+    const [bookmarks, setBookmarks] = useState([])
     
     useEffect(() => {
         axios.get(`http://localhost:5000/api/recipes/${recipeId}`)
             .then((res) => {
                 setRecipe(res.data)
                 setUser(res.data.user)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        axios.get(`http://localhost:5000/api/users/bookmarks`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                setBookmarks(res.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -42,6 +50,18 @@ const ViewRecipe = (props) => {
         axios.post(`http://localhost:5000/api/users/bookmark/recipe/${recipeId}`, "", {headers: {Authorization: `Bearer ${token}`}})
             .then((res) => {
                 console.log(res)
+                setBookmarks([...bookmarks, res.data])
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const unBookmarkOnClick = () => {
+        axios.delete(`http://localhost:5000/api/users/bookmark/delete/${recipeId}`, {headers: {Authorization: `Bearer ${token}`}})
+            .then((res) => {
+                console.log(res)
+                setBookmarks(bookmarks.filter((bookmark) => bookmark.id != recipeId))
             })
             .catch((err) => {
                 console.log(err)
@@ -58,7 +78,13 @@ const ViewRecipe = (props) => {
                     <h1 className='recipe-title'>{recipe.title}</h1>
                     <div>
                         <p>{user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></p>
-                        <button onClick={() => bookmarkOnClick()}>Bookmark</button>
+                        {
+                            token?
+                                (bookmarks.filter((bookmark) => bookmark.id == recipeId)[0])?
+                                <button onClick={() => unBookmarkOnClick()}>UnBookmark</button>:
+                                <button onClick={() => bookmarkOnClick()}>Bookmark</button>:
+                                null
+                        }
                     </div>
                 </header>
                 <div className='recipe-times'>
