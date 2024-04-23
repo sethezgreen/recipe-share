@@ -36,7 +36,7 @@ const Login = (props) => {
                 }
                 <Form.Group>
                     <Form.Label>Email:</Form.Label>
-                    <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)} className='input'/>
+                    <Form.Control type='email' value={email} onChange={(e) => setEmail(e.target.value)} className='input' autoFocus/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Password:</Form.Label>

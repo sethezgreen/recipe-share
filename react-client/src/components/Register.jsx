@@ -42,7 +42,7 @@ const Register = (props) => {
             <Form onSubmit={submitHandler} data-bs-theme="dark">
                 <Form.Group>
                     <Form.Label>Username:</Form.Label>
-                    <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} className='input'/>
+                    <Form.Control type="text" value={username} onChange={(e) => setUsername(e.target.value)} className='input' autoFocus/>
                     {
                         errors.usernameLength ||
                         errors.usernameTaken?

@@ -60,7 +60,7 @@ const UpdateRecipe = (props) => {
             <Form onSubmit={submitHandler} data-bs-theme="dark">
                 <Form.Group>
                     <Form.Label>Title:</Form.Label>
-                    <Form.Control type='text' value={title || ""} onChange={(e) => setTitle(e.target.value)} className='input'/>
+                    <Form.Control type='text' value={title || ""} onChange={(e) => setTitle(e.target.value)} className='input' autoFocus/>
                     {
                         errors.title?
                         <Form.Text>{errors.title}</Form.Text>:
