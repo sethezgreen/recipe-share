@@ -5,7 +5,7 @@ import LogoutButton from './LogoutButton'
 import axios from 'axios'
 
 const SideNav = (props) => {
-    const { token, toggleModal, logoutCallback, loggedUser, setUserId, followedUsers, setFollowedUsers, setViewingBookmarks } = props
+    const { token, toggleModal, logoutCallback, loggedUser, followedUsers, setFollowedUsers } = props
     const navigate = useNavigate()
     
     useEffect(() => {

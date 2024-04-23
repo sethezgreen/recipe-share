@@ -18,7 +18,7 @@ function App() {
   const [tokenId, setTokenId] = useState("")
   const [loggedUser, setLoggedUser] = useState({})
   const [modal, setModal] = useState(false)
-
+  const [followedUsers, setFollowedUsers] = useState([])
 
   useEffect(() => {
     if (token) {
@@ -36,9 +36,9 @@ function App() {
   return (
     <>
       <Routes>
-        <Route exact path='/' element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal} />}>
+        <Route exact path='/' element={<Main token={token} setToken={setToken} tokenId={tokenId} setTokenId={setTokenId} loggedUser={loggedUser} setLoggedUser={setLoggedUser} modal={modal} setModal={setModal} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers}/>}>
           <Route path='' element={<MainFeed token={token} toggleModal={toggleModal} />}/>
-          <Route path='user/:userId' element={<ViewUser tokenId={tokenId} />}/>
+          <Route path='user/:userId' element={<ViewUser token={token} tokenId={tokenId} followedUsers={followedUsers} setFollowedUsers={setFollowedUsers} />}/>
           <Route path='recipe/new' element={<RecipeForm token={token} />}/>
           <Route path='bookmarks' element={<Bookmarks token={token} />}/>
           <Route path='recipe/:recipeId' element={<ViewRecipe token={token} tokenId={tokenId} />}/>

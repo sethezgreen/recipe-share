@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import '../css/feed.css'
 import '../css/viewuser.css'
 import Feed from './Feed'
-import { useParams } from 'react-router-dom'
 import BackButton from './BackButton'
 
 const ViewUser = (props) => {
@@ -56,7 +56,7 @@ const ViewUser = (props) => {
                     <h1>{user.firstName} {user.lastName} (@{user.username})</h1>
                     {
                         token?
-                            (followedUsers.filter((followedUser) => followedUser.id == id)[0])?
+                            (followedUsers.filter((followedUser) => followedUser.id == userId)[0])?
                             <button onClick={() => unfollowOnClick()}>Unfollow</button>:
                             <button onClick={() => followOnClick()}>Follow</button>:
                         null

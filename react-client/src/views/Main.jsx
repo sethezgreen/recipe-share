@@ -1,25 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import axios from 'axios'
+import { Outlet, useNavigate } from 'react-router-dom'
 import '../css/main.css'
 import SideNav from '../components/SideNav'
 import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
-    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, modal, setModal} = props
-    // const [modal, setModal] = useState(false)
-    const [followedUsers, setFollowedUsers] = useState([])
-
-    // useEffect(() => {
-    //     if (token) {
-    //         axios.get('http://localhost:5000/api/users/bookmarks', {headers: {Authorization: `Bearer ${token}`}})
-    //             .then((res) => {
-    //                 console.log(res)
-    //                 setBookmarks(res.data)
-    //             })
-    //             .catch((err) => console.log(err))
-    //     }
-    // },[token])
+    const navigate = useNavigate()
+    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, modal, setModal, followedUsers, setFollowedUsers} = props
 
     const toggleModal = () => {
         setModal(!modal)
@@ -36,6 +22,7 @@ const Main = (props) => {
         setTokenId("")
         setLoggedUser({})
         setFollowedUsers([])
+        navigate('/')
         alert("logout successful")
     }
 
