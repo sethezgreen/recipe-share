@@ -16,9 +16,13 @@
     margin-left: 5%;
 }
 
+.bookmark-btn {
+    height: fit-content;
+}
+
 .recipe-times {
     margin: 0 auto;
-    width: 50%;
+    width: 40%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,8 +31,11 @@
 .time-section {
     text-align: center;
     border: 2px solid white;
-    width: 33%;
-    padding: 0.5rem;
+    width: 33.33%;
+    padding: 0.1rem;
+    p {
+        margin: 0;
+    }
 }
 
 .sub-heading {

@@ -76,17 +76,15 @@ const ViewRecipe = (props) => {
             <div className='recipe-page'>
                 <header className='recipe-header'>
                     <h1 className='recipe-title'>{recipe.title}</h1>
-                    <div>
-                        <p>{user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></p>
                         {
                             token?
                                 (bookmarks.filter((bookmark) => bookmark.id == recipeId)[0])?
-                                <button onClick={() => unBookmarkOnClick()}>UnBookmark</button>:
-                                <button onClick={() => bookmarkOnClick()}>Bookmark</button>:
+                                <button onClick={() => unBookmarkOnClick()} className='bookmark-btn'>UnBookmark</button>:
+                                <button onClick={() => bookmarkOnClick()} className='bookmark-btn'>Bookmark</button>:
                                 null
-                        }
-                    </div>
+                            }
                 </header>
+                <p>By: {user.first_name} {user.last_name} <span className='blue-hover pointer-hover' onClick={(e) => usernameOnClick(e, recipe.user_id)}>(@{user.username})</span></p>
                 <div className='recipe-times'>
                     <div className='time-section'>
                         <p>Prep Time:</p>
