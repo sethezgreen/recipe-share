@@ -23,27 +23,36 @@ const SideNav = (props) => {
             {
                 token?
                 <>
-                    <p className='accent font-larger font-weight'>@{loggedUser.username}</p>
-                    <Link className='color-secondary blue-hover pointer-hover' to={`/user/${loggedUser.id}`}>
-                        My Recipes
-                    </Link>
-                    <Link className='color-secondary blue-hover pointer-hover' to={`/bookmarks`}>
-                        Bookmarked Recipes
-                    </Link>
-                    <p>Following:</p>
-                    {
-                        followedUsers[0]?
-                        followedUsers.map((followed_user) => (
-                            <p key={followed_user.id} className='blue-hover pointer-hover' onClick={() => navigate(`/user/${followed_user.id}`)}>@{followed_user.username}</p>
-                        )):
-                        <p>Follow someone to add</p>
-                    }
-                    <LogoutButton logoutCallback={logoutCallback}/>
+                <div className='side-nav-content'>
+                    <div className='user-info-container'>
+                        <p className='accent font-larger font-weight'>@{loggedUser.username}</p>
+                        <Link className='color-secondary blue-hover pointer-hover' to={`/user/${loggedUser.id}`}>
+                            My Recipes
+                        </Link>
+                        <Link className='color-secondary blue-hover pointer-hover' to={`/bookmarks`}>
+                            Bookmarked Recipes
+                        </Link>
+                    </div>
+                    <div>
+                        <p>Following:</p>
+                        <div className='following-container'>
+                            {
+                                followedUsers[0]?
+                                followedUsers.map((followed_user) => (
+                                    <p key={followed_user.id} className='blue-hover pointer-hover' onClick={() => navigate(`/user/${followed_user.id}`)}>@{followed_user.username}</p>
+                                )):
+                                <p>Follow someone to add</p>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                    <LogoutButton logoutCallback={logoutCallback} className='logout-btn'/>
                 </>:
-            <>
-            <p>Log in to view Account Details</p>
-            <button onClick={toggleModal}>Login</button>
-            </>
+            <div>
+                <p>Log in to view Account Details</p>
+                <button onClick={toggleModal}>Login</button>
+            </div>
             }
             
         </div>
