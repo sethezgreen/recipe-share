@@ -23,7 +23,6 @@ const Main = (props) => {
         setLoggedUser({})
         setFollowedUsers([])
         navigate('/')
-        alert("logout successful")
     }
 
     return (
