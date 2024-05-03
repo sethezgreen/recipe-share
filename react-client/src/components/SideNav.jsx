@@ -9,14 +9,16 @@ const SideNav = (props) => {
     const navigate = useNavigate()
     
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/users/${sessionStorage.getItem('tokenId')}/followed_users`)
-            .then((res) => {
-                setFollowedUsers(res.data.followed_users)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, [token])
+        if (sessionStorage.getItem('tokenId')) {
+            axios.get(`http://localhost:5000/api/users/${sessionStorage.getItem('tokenId')}/followed_users`)
+                .then((res) => {
+                    setFollowedUsers(res.data.followed_users)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }, [sessionStorage.getItem('tokenId')])
 
     return (
         <div className='side-nav mobile-hidden'>

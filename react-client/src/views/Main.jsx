@@ -5,7 +5,7 @@ import LoginRegModal from '../components/LoginRegModal'
 
 const Main = (props) => {
     const navigate = useNavigate()
-    const {token, setToken, tokenId, setTokenId, loggedUser, setLoggedUser, modal, setModal, followedUsers, setFollowedUsers} = props
+    const {token, setToken, loggedUser, setLoggedUser, modal, setModal, followedUsers, setFollowedUsers} = props
 
     const toggleModal = () => {
         setModal(!modal)
@@ -19,8 +19,8 @@ const Main = (props) => {
 
     const logoutCallback = () => {
         setToken("")
-        setTokenId("")
         setLoggedUser({})
+        sessionStorage.setItem('tokenId', '')
         setFollowedUsers([])
         navigate('/')
     }

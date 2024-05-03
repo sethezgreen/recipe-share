@@ -15,7 +15,6 @@ const Login = (props) => {
         const loginUser = {email, password}
         axios.post('http://localhost:5000/api/login', loginUser)
             .then((res) => {
-                console.log(res)
                 setToken(res.data.access_token)
                 toggleModal()
             })
