@@ -11,7 +11,7 @@ const RecipeCard = (props) => {
 
     return (
     <div className='recipe-card' onClick={() => recipeCardOnClick()}>
-        <img id="recipe-img" src="/placeholder.jpg" alt="placeholder image" />
+        {/* <img id="recipe-img" src="/placeholder.jpg" alt="placeholder image" /> */}
         <div className="recipe-card-content">
             <div className='top'>
                 <h3 className='blue-hover'><u>{recipe.title}</u></h3>
